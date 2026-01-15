@@ -143,7 +143,7 @@ if bouton_clique:
     if not prenom:
         st.warning("⚠️ Remplis ton prénom pour valider ton ticket !")
     else:
-        # Petite animation
+        # 1. Petite animation de chargement
         barre = st.progress(0, text="Sauvegarde des neurones restants...")
         for i in range(100):
             time.sleep(0.01)
@@ -151,47 +151,49 @@ if bouton_clique:
         time.sleep(0.2)
         barre.empty()
         
+        # 2. On lance les ballons
         st.balloons()
-
-    # --- MUSIQUE ---
-    try:
-        jouer_musique_locale("Layla.mp3") 
-    except FileNotFoundError:
-        st.error("Le fichier layla.mp3 n'est pas sur le serveur (GitHub) !")
         
-        # --- 4. LE TICKET ---
+        # 3. D'ABORD on prépare et affiche le ticket (Code sorti du try/except)
         html_ticket = f"""
-<div style="font-family: Arial, sans-serif; border: 3px dashed {couleur_choisie}; background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%); padding: 30px; border-radius: 15px; text-align: center; margin-top: 10px; box-shadow: 0 0 25px {couleur_choisie}50; position: relative; overflow: hidden; animation: slideUp 0.8s ease-out;">
-    <div style="background-color: {couleur_choisie}; color: black; font-weight: bold; padding: 5px 15px; display: inline-block; border-radius: 20px; margin-bottom: 20px; text-transform: uppercase; font-size: 14px;">
-        Session Janvier Terminée
-    </div>
-    <h1 style="color: white; margin: 0; font-size: 40px; text-transform: uppercase; letter-spacing: 3px; text-shadow: 2px 2px 0px {couleur_choisie};">
-        PASS LIBERTÉ
-    </h1>
-    <p style="color: #cccccc; font-size: 16px; margin-top: 5px; font-style: italic;">Valable exclusivement pour :</p>
-    <h2 style="color: white; font-size: 50px; margin: 10px 0;">{prenom}</h2>
-    <div style="border-top: 1px solid #555; margin: 20px 0;"></div>
-    <div style="display: flex; justify-content: space-around; align-items: center;">
-        <div style="flex: 1;">
-            <p style="color: {couleur_choisie}; font-size: 12px; text-transform: uppercase; margin: 0;">État des lieux</p>
-            <p style="color: white; font-size: 16px; font-weight: bold; margin: 5px 0;">{batterie}</p>
+        <div style="font-family: Arial, sans-serif; border: 3px dashed {couleur_choisie}; background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%); padding: 30px; border-radius: 15px; text-align: center; margin-top: 10px; box-shadow: 0 0 25px {couleur_choisie}50; position: relative; overflow: hidden; animation: slideUp 0.8s ease-out;">
+            <div style="background-color: {couleur_choisie}; color: black; font-weight: bold; padding: 5px 15px; display: inline-block; border-radius: 20px; margin-bottom: 20px; text-transform: uppercase; font-size: 14px;">
+                Session Janvier Terminée
+            </div>
+            <h1 style="color: white; margin: 0; font-size: 40px; text-transform: uppercase; letter-spacing: 3px; text-shadow: 2px 2px 0px {couleur_choisie};">
+                PASS LIBERTÉ
+            </h1>
+            <p style="color: #cccccc; font-size: 16px; margin-top: 5px; font-style: italic;">Valable exclusivement pour :</p>
+            <h2 style="color: white; font-size: 50px; margin: 10px 0;">{prenom}</h2>
+            <div style="border-top: 1px solid #555; margin: 20px 0;"></div>
+            <div style="display: flex; justify-content: space-around; align-items: center;">
+                <div style="flex: 1;">
+                    <p style="color: {couleur_choisie}; font-size: 12px; text-transform: uppercase; margin: 0;">État des lieux</p>
+                    <p style="color: white; font-size: 16px; font-weight: bold; margin: 5px 0;">{batterie}</p>
+                </div>
+                <div style="font-size: 30px; padding: 0 10px;">✈️</div>
+                <div style="flex: 1;">
+                    <p style="color: {couleur_choisie}; font-size: 12px; text-transform: uppercase; margin: 0;">Destination</p>
+                    <p style="color: white; font-size: 18px; font-weight: bold; margin: 5px 0;">{activite}</p>
+                </div>
+            </div>
+            <div style="margin-top: 30px; font-size: 12px; color: #777;">
+                Ce document certifie que le cerveau de l'utilisateur est officiellement en veille.<br>
+                Validité : Jusqu'à la reprise (désolé).
+            </div>
         </div>
-        <div style="font-size: 30px; padding: 0 10px;">✈️</div>
-        <div style="flex: 1;">
-            <p style="color: {couleur_choisie}; font-size: 12px; text-transform: uppercase; margin: 0;">Destination</p>
-            <p style="color: white; font-size: 18px; font-weight: bold; margin: 5px 0;">{activite}</p>
-        </div>
-    </div>
-    <div style="margin-top: 30px; font-size: 12px; color: #777;">
-        Ce document certifie que le cerveau de l'utilisateur est officiellement en veille.<br>
-        Validité : Jusqu'à la reprise (désolé).
-    </div>
-</div>
-<style>
-@keyframes slideUp {{
-    from {{ transform: translateY(50px); opacity: 0; }}
-    to {{ transform: translateY(0); opacity: 1; }}
-}}
-</style>
-"""
+        <style>
+        @keyframes slideUp {{
+            from {{ transform: translateY(50px); opacity: 0; }}
+            to {{ transform: translateY(0); opacity: 1; }}
+        }}
+        </style>
+        """
         st.markdown(html_ticket, unsafe_allow_html=True)
+
+        # 4. ENSUITE on lance la musique (indépendant du ticket)
+        try:
+            # Assure-toi que le fichier s'appelle bien exactement comme ça sur GitHub
+            jouer_musique_locale("Layla.mp3") 
+        except FileNotFoundError:
+            st.error("Le fichier Layla.mp3 est introuvable (vérifie le nom exact sur GitHub) !")
