@@ -79,23 +79,35 @@ st.markdown("""
 
 # --- 3. INTERFACE ---
 st.title("❄️ Check-out : Session Janvier")
-st.write("Formalités de sortie avant la pause bien méritée")
 
 col1, col2 = st.columns(2)
+
 with col1:
-    prenom = st.text_input("Ton Prénom :", placeholder="Ex: Basil")
-    batterie = st.select_slider("Niveau de batterie actuel :", 
-        options=["1% (Critique 💀)", "20% (Au bout du rouleau 😫)", "40% (Fragile 🫤)", "60% (Stable 😐)", "80% (En forme 😁)", "100% (Machine de guerre 🚀)"],
-        value="20% (Au bout du rouleau 😫)")
+    st.write("Configure ton extraction vers la liberté.")
+    prenom = st.text_input("Ton Prénom (Agent en fuite) :", placeholder="Basil")
+    batterie = st.select_slider("État vital actuel :", 
+        options=["1% (Critique 💀)", "20% (Eco 😫)", "40% (Fragile 🫤)", "60% (Stable 😐)", "80% (En forme 😁)", "100% (Machine 🚀)"],
+        value="20% (Eco 😫)")
+
 with col2:
-    activite = st.selectbox("Objectif prioritaire :", ["Hibernation totale 🐻", "Raclette Party 🧀", "Marathon De Films 📺", "Aller skier ⛷️", "Fuite à l'étranger ✈️", "Apéro infini 🍻"])
+    st.write("❄️")
+    activite = st.selectbox("Mission Prioritaire :", ["Hibernation totale 🐻", "Raclette Party 🧀", "Marathon De Films 📺", "Aller skier ⛷️", "Fuite à l'étranger ✈️", "Apéro infini 🍻"])
+    # NOUVELLE OPTION AJOUTÉE ICI
+    transport = st.selectbox("Moyen d'exfiltration :", ["Téléportation", "Jet Privé", "Dos de Dragon", "Trottinette Électrique", "Tapis Volant", "Uber Copter"])
+
+st.write(""); st.write("")
+
+# SECTION COULEUR CENTRÉE (Pour remplacer les objets interdits)
+c_left, c_center, c_right = st.columns([1, 1, 1])
+with c_center:
     couleur_choisie = st.color_picker("Couleur du Pass :", "#00FFFF")
 
 st.write(""); st.write("")
 
-c_left, c_center, c_right = st.columns([1, 2, 1])
-with c_center:
-    bouton_clique = st.button("ACTIVER LE MODE VACANCES 🚀")
+# BOUTON D'ACTION
+bt_left, bt_center, bt_right = st.columns([1, 2, 1])
+with bt_center:
+    bouton_clique = st.button("IMPRIMER LE BOARDING PASS 🚀")
 
 
 # --- 4. LOGIQUE D'ACTIVATION ---
@@ -104,16 +116,15 @@ if bouton_clique:
         st.warning("⚠️ Remplis ton prénom pour valider ton ticket !")
     else:
         # --- A. MUSIQUE (PRIORITÉ ABSOLUE) ---
-        # On lance le son AVANT de faire attendre l'utilisateur
         try:
             jouer_musique_locale("Layla.mp3") 
         except FileNotFoundError:
             st.error("⚠️ Fichier Layla.mp3 introuvable (Vérifie majuscules/minuscules sur GitHub)")
 
-        # --- B. ANIMATION (Pendant que la musique joue) ---
+        # --- B. ANIMATION ---
         barre = st.progress(0, text="Connexion au paradis...")
         for i in range(100):
-            time.sleep(0.01) # La musique joue pendant ce temps !
+            time.sleep(0.01) 
             barre.progress(i + 1)
         time.sleep(0.2)
         barre.empty()
@@ -127,12 +138,17 @@ if bouton_clique:
             <h1 style="color: white; margin: 0; font-size: 40px; text-transform: uppercase; letter-spacing: 3px; text-shadow: 2px 2px 0px {couleur_choisie};">PASS LIBERTÉ</h1>
             <p style="color: #cccccc; font-size: 16px; margin-top: 5px; font-style: italic;">Valable exclusivement pour :</p>
             <h2 style="color: white; font-size: 50px; margin: 10px 0;">{prenom}</h2>
+            
             <div style="border-top: 1px solid #555; margin: 20px 0;"></div>
-            <div style="display: flex; justify-content: space-around; align-items: center;">
-                <div style="flex: 1;"><p style="color: {couleur_choisie}; font-size: 12px; text-transform: uppercase; margin: 0;">État des lieux</p><p style="color: white; font-size: 16px; font-weight: bold; margin: 5px 0;">{batterie}</p></div>
-                <div style="font-size: 30px; padding: 0 10px;">✈️</div>
-                <div style="flex: 1;"><p style="color: {couleur_choisie}; font-size: 12px; text-transform: uppercase; margin: 0;">Destination</p><p style="color: white; font-size: 18px; font-weight: bold; margin: 5px 0;">{activite}</p></div>
+            
+            <div style="display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 100px;"><p style="color: {couleur_choisie}; font-size: 12px; text-transform: uppercase; margin: 0;">Batterie</p><p style="color: white; font-size: 14px; font-weight: bold; margin: 5px 0;">{batterie.split(' ')[0]}</p></div>
+                <div style="font-size: 25px; padding: 0 10px;">✈️</div>
+                <div style="flex: 1; min-width: 100px;"><p style="color: {couleur_choisie}; font-size: 12px; text-transform: uppercase; margin: 0;">Destination</p><p style="color: white; font-size: 14px; font-weight: bold; margin: 5px 0;">{activite}</p></div>
+                <div style="font-size: 25px; padding: 0 10px;">🚀</div>
+                <div style="flex: 1; min-width: 100px;"><p style="color: {couleur_choisie}; font-size: 12px; text-transform: uppercase; margin: 0;">Transport</p><p style="color: white; font-size: 14px; font-weight: bold; margin: 5px 0;">{transport}</p></div>
             </div>
+            
             <div style="margin-top: 30px; font-size: 12px; color: #777;">Ce document certifie que le cerveau de l'utilisateur est officiellement en veille.<br>Validité : Jusqu'à la reprise (désolé).</div>
         </div>
         <style> @keyframes slideUp {{ from {{ transform: translateY(50px); opacity: 0; }} to {{ transform: translateY(0); opacity: 1; }} }} </style>
