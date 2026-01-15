@@ -84,12 +84,12 @@ st.markdown("""
 
 # --- 2. LE FORMULAIRE ---
 st.title("❄️ Check-out : Session Janvier")
-st.write("Formalités de sortie avant la pause bien méritée.")
+st.write("Formalités de sortie avant la pause bien méritée")
 
 col1, col2 = st.columns(2)
 
 with col1:
-    prenom = st.text_input("Ton Prénom :", placeholder="Ex: Chloé")
+    prenom = st.text_input("Ton Prénom :", placeholder="Ex: Basil")
     
     # --- MODIFICATION ICI : Slider Émotionnel ---
     options_batterie = [
