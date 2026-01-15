@@ -2,128 +2,158 @@ import streamlit as st
 import time
 
 # --- 1. CONFIGURATION ---
-st.set_page_config(page_title="La Libération", page_icon="🎓", layout="centered")
+st.set_page_config(page_title="Libération Janvier", page_icon="❄️", layout="centered")
 
-# CSS Amélioré (Style "Carte Gold")
+# CSS : Fond sombre et forçage des couleurs pour éviter le bug de texte invisible
 st.markdown("""
     <style>
+    /* Force le fond noir */
     .stApp {
         background-color: #0E1117;
-        color: white;
     }
-    /* Style des champs de texte */
+    
+    /* Force le texte des widgets en blanc/gris pour lisibilité */
     .stTextInput > div > div > input {
-        color: black;
+        color: white;
+        background-color: #262730;
     }
-    /* Le bouton principal */
+    p, label {
+        color: white !important;
+    }
+    
+    /* Le bouton stylé */
     .stButton>button {
         width: 100%;
         height: 70px;
-        background: linear-gradient(45deg, #FF007F, #FFD700); /* Dégradé Rose/Or */
+        background: linear-gradient(90deg, #FF007F, #6600FF);
         color: white;
-        font-size: 22px;
+        font-size: 20px;
         font-weight: bold;
         border: none;
-        border-radius: 35px;
+        border-radius: 15px;
         transition: 0.4s;
-        box-shadow: 0px 0px 20px rgba(255, 0, 127, 0.5);
+        margin-top: 20px;
     }
     .stButton>button:hover {
-        transform: scale(1.05);
-        box-shadow: 0px 0px 30px rgba(255, 215, 0, 0.8);
+        transform: scale(1.02);
+        box-shadow: 0px 0px 20px rgba(102, 0, 255, 0.5);
     }
     </style>
 """, unsafe_allow_html=True)
 
-# --- 2. LE QUESTIONNAIRE ---
-st.title("🎓 Le Grand Verdict 🎓")
-st.write("Les examens sont finis... mais il reste une dernière formalité administrative.")
+# --- 2. LE FORMULAIRE ---
+st.title("❄️ Check-out : Session Janvier")
+st.write("Formalités de sortie avant la pause bien méritée.")
 
 col1, col2 = st.columns(2)
 
 with col1:
-    prenom = st.text_input("Ton Prénom :", placeholder="Ex: Lucas")
-    humeur = st.selectbox("Ton état actuel :", 
-                          ["Épuisé(e) 😴", "Survolté(e) ⚡", "Libéré(e) 🕊️", "En mode zombie 🧟"])
+    prenom = st.text_input("Ton Prénom :", placeholder="Ex: Chloé")
+    # Une liste plus drôle pour janvier
+    batterie = st.select_slider("Niveau de batterie actuel :", 
+                                options=["0% (HS)", "20% (Éco)", "50% (Ça va)", "100% (Machine)"],
+                                value="20% (Éco)")
 
 with col2:
-    programme = st.selectbox("Ton programme ce soir :", 
-                             ["Dormir 12h d'affilée", "Une grosse fête 🎉", "Netflix & Chill 🍿", "Rien faire du tout"])
-    couleur_choisie = st.color_picker("Couleur du diplôme :", "#FFD700")
+    activite = st.selectbox("Objectif prioritaire :", 
+                             ["Hibernation totale 🐻", "Raclette Party 🧀", "Marathon Séries 📺", "Aller skier ⛷️"])
+    couleur_choisie = st.color_picker("Couleur du Pass :", "#00FFFF")
 
 st.write("")
-st.write("")
 
-# --- 3. LE BOUTON FINAL ---
-if st.button("Générer mon rapport de fin d'année 🎁"):
+# --- 3. LE BOUTON ---
+if st.button("ACTIVER LE MODE VACANCES 🚀"):
     
     if not prenom:
-        st.warning("⚠️ Hé ! Il faut mettre ton prénom pour avoir la surprise !")
+        st.warning("⚠️ Remplis ton prénom pour valider ton ticket !")
     else:
-        # Suspense...
-        progress_text = "Analyse des résultats..."
-        my_bar = st.progress(0, text=progress_text)
+        # Petite animation de chargement
+        barre = st.progress(0, text="Sauvegarde des neurones restants...")
+        for i in range(100):
+            time.sleep(0.01)
+            barre.progress(i + 1)
+        time.sleep(0.2)
+        barre.empty()
         
-        for percent in range(100):
-            time.sleep(0.02)
-            my_bar.progress(percent + 1, text="Impression du certificat officiel...")
+        # --- 4. EFFETS SPÉCIAUX ---
+        st.balloons()
         
-        time.sleep(0.5)
-        my_bar.empty()
-        
-        # --- 4. LA SURPRISE (Double effet) ---
-        st.balloons() # Ballons
-        time.sleep(1)
-        st.snow()     # Neige (effet paillettes)
-
-        # --- 5. LE DIPLÔME (HTML/CSS Avancé) ---
-        # On insère les variables (prenom, humeur, etc) dans le texte HTML
-        html_diploma = f"""
+        # --- 5. LE "GOLDEN TICKET" (Corrigé pour la visibilité) ---
+        # Note : J'utilise color: white explicitement partout
+        html_ticket = f"""
         <div style="
-            border: 4px solid {couleur_choisie};
+            font-family: Arial, sans-serif;
+            border: 3px dashed {couleur_choisie};
+            background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
             padding: 30px;
-            border-radius: 20px;
-            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
             text-align: center;
-            box-shadow: 0 0 30px {couleur_choisie};
-            margin-top: 20px;
-            animation: popIn 1s ease-out;
+            margin-top: 30px;
+            box-shadow: 0 0 25px {couleur_choisie}50; /* Le 50 à la fin ajoute de la transparence */
+            position: relative;
+            overflow: hidden;
+            animation: slideUp 0.8s ease-out;
         ">
-            <svg width="150" height="150" viewBox="0 0 24 24" style="margin-bottom: 20px;">
-                <path fill="{couleur_choisie}" d="M12 2l-3 6-6 1 4.5 4L6 19l6-3 6 3-1.5-6 4.5-4-6-1-3-6z"/> 
-                </svg>
+            <div style="
+                background-color: {couleur_choisie};
+                color: black;
+                font-weight: bold;
+                padding: 5px 15px;
+                display: inline-block;
+                border-radius: 20px;
+                margin-bottom: 20px;
+                text-transform: uppercase;
+                font-size: 14px;
+            ">
+                Session Janvier Terminée
+            </div>
 
-            <h1 style="color: white; font-family: 'Times New Roman', serif; text-transform: uppercase; letter-spacing: 2px;">
-                CERTIFICAT DE SURVIE
+            <h1 style="
+                color: white; 
+                margin: 0; 
+                font-size: 40px; 
+                text-transform: uppercase;
+                letter-spacing: 3px;
+                text-shadow: 2px 2px 0px {couleur_choisie};
+            ">
+                PASS LIBERTÉ
             </h1>
             
-            <p style="color: #DDDDDD; font-size: 18px;">Décerné officiellement à</p>
+            <p style="color: #cccccc; font-size: 16px; margin-top: 5px; font-style: italic;">
+                Valable exclusivement pour :
+            </p>
             
-            <h2 style="color: {couleur_choisie}; font-size: 50px; margin: 10px 0; text-shadow: 0 0 10px rgba(0,0,0,0.5);">
+            <h2 style="color: white; font-size: 50px; margin: 10px 0;">
                 {prenom}
             </h2>
             
-            <hr style="border-color: {couleur_choisie}; opacity: 0.5; width: 50%; margin: 20px auto;">
+            <div style="border-top: 1px solid #555; margin: 20px 0;"></div>
             
-            <p style="font-size: 20px; color: white;">
-                A survécu aux examens en étant <strong>{humeur}</strong>.<br>
-                Est autorisé(e) à commencer immédiatement :<br>
-                <span style="font-size: 28px; font-weight: bold; color: {couleur_choisie};">{programme}</span>
-            </p>
-            
-            <div style="margin-top: 30px; font-style: italic; color: #888;">
-                Fait le 15 Janvier 2026 <br>
-                Signature: <span style="font-family: 'Brush Script MT', cursive; font-size: 24px;">Le Comité des Vacances</span>
+            <div style="display: flex; justify-content: space-around; align-items: center;">
+                <div>
+                    <p style="color: {couleur_choisie}; font-size: 12px; text-transform: uppercase; margin: 0;">État des lieux</p>
+                    <p style="color: white; font-size: 20px; font-weight: bold; margin: 5px 0;">{batterie}</p>
+                </div>
+                <div style="font-size: 30px;">✈️</div>
+                <div>
+                    <p style="color: {couleur_choisie}; font-size: 12px; text-transform: uppercase; margin: 0;">Destination</p>
+                    <p style="color: white; font-size: 20px; font-weight: bold; margin: 5px 0;">{activite}</p>
+                </div>
             </div>
+
+            <div style="margin-top: 30px; font-size: 12px; color: #777;">
+                Ce document certifie que le cerveau de l'utilisateur est officiellement en veille.<br>
+                Validité : Jusqu'à la reprise (désolé).
+            </div>
+            
         </div>
 
         <style>
-        @keyframes popIn {{
-            0% {{ transform: scale(0); opacity: 0; }}
-            80% {{ transform: scale(1.05); opacity: 1; }}
-            100% {{ transform: scale(1); }}
+        @keyframes slideUp {{
+            from {{ transform: translateY(50px); opacity: 0; }}
+            to {{ transform: translateY(0); opacity: 1; }}
         }}
         </style>
         """
         
-        st.markdown(html_diploma, unsafe_allow_html=True)
+        st.markdown(html_ticket, unsafe_allow_html=True)
