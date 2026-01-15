@@ -40,12 +40,12 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # --- 2. TITRE MYSTÉRIEUX ---
-st.title("Petite question...")
+st.title("Petite Surprise...")
 
 # --- 3. LE CHOIX DE COULEUR (Mystère) ---
 st.write("Avant de commencer, il faut configurer la surprise :")
 # ICI : On ne dit plus que c'est un coeur
-couleur_choisie = st.color_picker("Quelle est ta couleur préférée ?", "#FF007F")
+couleur_choisie = st.color_picker("Quelle est ta couleur préférée ?", "#40E0D0")
 
 st.write("") # Petit espace
 st.write("") 
