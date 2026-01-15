@@ -80,13 +80,13 @@ st.markdown("""
 
 # --- 3. INTERFACE (Le contenu Fun du Code 1) ---
 st.title("❄️ Check-out : Session Janvier")
-st.write("Configure ton extraction vers la liberté.")
+st.write("Configure ton extraction vers la liberté :")
 
 col1, col2 = st.columns(2)
 
 with col1:
     st.write("**Identité de l'agent**")
-    prenom = st.text_input("Ton Prénom :", placeholder="Agent Basil")
+    prenom = st.text_input("Ton Prénom :", placeholder="Ex: Basil")
     batterie = st.select_slider("État vital actuel :", 
         options=["1% (Critique 💀)", "20% (Eco 😫)", "40% (Fragile 🫤)", "60% (Stable 😐)", "80% (En forme 😁)", "100% (Machine 🚀)"],
         value="20% (Eco 😫)")
@@ -95,7 +95,7 @@ with col2:
     st.write("**Logistique de fuite**")
     activite = st.selectbox("Mission Prioritaire :", ["Hibernation totale 🐻", "Raclette Party 🧀", "Marathon De Films 📺", "Aller skier ⛷️", "Fuite à l'étranger ✈️", "Apéro infini 🍻"])
     # ON GARDE LE TRANSPORT (C'est le plus drôle)
-    transport = st.selectbox("Moyen d'exfiltration :", ["Téléportation", "Jet Privé", "Dos de Dragon", "Trottinette Électrique", "Tapis Volant", "Uber Copter"])
+    transport = st.selectbox("Moyen d'exfiltration :", ["Téléportation", "À la nage", "Dos de Dragon", "Trottinette Électrique", "Tapis Volant", "Uber Copter"])
 
 # Couleur imposée pour le style (Meilleur choix UX)
 couleur_choisie = "#00FFFF" 
@@ -153,7 +153,7 @@ if bouton_clique:
 </div>
 </div>
             
-<div style="margin-top: 30px; font-size: 12px; color: #777;">Ce document certifie que le cerveau de l'utilisateur est officiellement en veille.<br>Validité : Jusqu'à la reprise (désolé).</div>
+<div style="margin-top: 30px; font-size: 12px; color: #777;">Ce document certifie que le cerveau de l'utilisateur est officiellement en veille<br>Validité : Jusqu'à la reprise (désolé)</div>
 </div>
 <style> @keyframes slideUp {{ from {{ transform: translateY(50px); opacity: 0; }} to {{ transform: translateY(0); opacity: 1; }} }} </style>
         """
