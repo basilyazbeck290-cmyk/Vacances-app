@@ -88,7 +88,7 @@ with col1:
         options=["1% (Critique 💀)", "20% (Au bout du rouleau 😫)", "40% (Fragile 🫤)", "60% (Stable 😐)", "80% (En forme 😁)", "100% (Machine de guerre 🚀)"],
         value="20% (Au bout du rouleau 😫)")
 with col2:
-    activite = st.selectbox("Objectif prioritaire :", ["Hibernation totale 🐻", "Raclette Party 🧀", "Marathon Séries 📺", "Aller skier ⛷️"])
+    activite = st.selectbox("Objectif prioritaire :", ["Hibernation totale 🐻", "Raclette Party 🧀", "Marathon De Films 📺", "Aller skier ⛷️"])
     couleur_choisie = st.color_picker("Couleur du Pass :", "#00FFFF")
 
 st.write(""); st.write("")
