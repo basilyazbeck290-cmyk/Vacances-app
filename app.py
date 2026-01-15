@@ -40,7 +40,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # --- 2. TITRE MYSTÉRIEUX ---
-st.title("Petite Surprise...")
+st.title("✨ Petite Surprise ✨")
 
 # --- 3. LE CHOIX DE COULEUR (Mystère) ---
 st.write("Avant de commencer, il faut la configurer :")
