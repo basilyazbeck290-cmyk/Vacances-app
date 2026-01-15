@@ -61,7 +61,7 @@ if st.button("Voir la surprise 🎁"):
         time.sleep(0.015) # Un tout petit peu plus lent pour le suspense
         my_bar.progress(percent_complete + 1, text=progress_text)
 
-    #time.sleep(0.5)
+    time.sleep(0.25)
     
     my_bar.empty() # On efface la barre
     
