@@ -1,5 +1,21 @@
 import streamlit as st
 import time
+import base64 # <--- N'oublie pas cet import !
+
+def jouer_musique_locale(fichier_audio):
+    """Lit un fichier audio local en arrière-plan (invisible)"""
+    # On lit le fichier binaire
+    with open(fichier_audio, "rb") as f:
+        data = f.read()
+    # On encode en base64 pour que le navigateur comprenne
+    b64 = base64.b64encode(data).decode()
+    # On injecte le HTML
+    md = f"""
+        <audio autoplay>
+        <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
+        </audio>
+        """
+    st.markdown(md, unsafe_allow_html=True)
 
 # --- 1. CONFIGURATION ---
 st.set_page_config(page_title="Libération Janvier", page_icon="❄️", layout="centered")
@@ -136,6 +152,12 @@ if bouton_clique:
         barre.empty()
         
         st.balloons()
+
+    # --- MUSIQUE ---
+    try:
+        jouer_musique_locale("layla.mp3") 
+    except FileNotFoundError:
+        st.error("Le fichier layla.mp3 n'est pas sur le serveur (GitHub) !")
         
         # --- 4. LE TICKET ---
         html_ticket = f"""
