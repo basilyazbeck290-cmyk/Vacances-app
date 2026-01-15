@@ -155,7 +155,7 @@ if bouton_clique:
 
     # --- MUSIQUE ---
     try:
-        jouer_musique_locale("layla.mp3") 
+        jouer_musique_locale("Layla.mp3") 
     except FileNotFoundError:
         st.error("Le fichier layla.mp3 n'est pas sur le serveur (GitHub) !")
         
