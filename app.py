@@ -43,7 +43,7 @@ st.markdown("""
 st.title("Petite Surprise...")
 
 # --- 3. LE CHOIX DE COULEUR (Mystère) ---
-st.write("Avant de commencer, il faut configurer la surprise :")
+st.write("Avant de commencer, il faut la configurer :")
 # ICI : On ne dit plus que c'est un coeur
 couleur_choisie = st.color_picker("Quelle est ta couleur préférée ?", "#FF007F") 
 
