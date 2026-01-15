@@ -1,100 +1,129 @@
 import streamlit as st
 import time
 
-# --- 1. CONFIGURATION DE LA PAGE ---
-st.set_page_config(
-    page_title="Surprise !",
-    page_icon="🎁",
-    layout="centered"
-)
+# --- 1. CONFIGURATION ---
+st.set_page_config(page_title="La Libération", page_icon="🎓", layout="centered")
 
-# Style CSS (Fond noir + Bouton rose)
+# CSS Amélioré (Style "Carte Gold")
 st.markdown("""
     <style>
     .stApp {
-        background-color: black;
+        background-color: #0E1117;
         color: white;
     }
-    h1 {
-        text-align: center;
-        color: white;
-        font-family: 'Helvetica', sans-serif;
+    /* Style des champs de texte */
+    .stTextInput > div > div > input {
+        color: black;
     }
-    /* Style du bouton */
+    /* Le bouton principal */
     .stButton>button {
         width: 100%;
-        height: 60px;
-        border-radius: 30px;
-        font-size: 20px;
-        font-weight: bold;
-        background-color: #FF007F;
+        height: 70px;
+        background: linear-gradient(45deg, #FF007F, #FFD700); /* Dégradé Rose/Or */
         color: white;
+        font-size: 22px;
+        font-weight: bold;
         border: none;
-        transition: 0.3s;
+        border-radius: 35px;
+        transition: 0.4s;
+        box-shadow: 0px 0px 20px rgba(255, 0, 127, 0.5);
     }
     .stButton>button:hover {
-        background-color: #ff4da6;
-        transform: scale(1.02);
+        transform: scale(1.05);
+        box-shadow: 0px 0px 30px rgba(255, 215, 0, 0.8);
     }
     </style>
 """, unsafe_allow_html=True)
 
-# --- 2. TITRE MYSTÉRIEUX ---
-st.title("✨ Petite Surprise ✨")
+# --- 2. LE QUESTIONNAIRE ---
+st.title("🎓 Le Grand Verdict 🎓")
+st.write("Les examens sont finis... mais il reste une dernière formalité administrative.")
 
-# --- 3. LE CHOIX DE COULEUR (Mystère) ---
-st.write("Avant de commencer, il faut la configurer :")
-couleur_choisie = st.color_picker("Quelle est ta couleur préférée ?", "#FF007F")
+col1, col2 = st.columns(2)
 
-st.write("") # Petit espace
+with col1:
+    prenom = st.text_input("Ton Prénom :", placeholder="Ex: Lucas")
+    humeur = st.selectbox("Ton état actuel :", 
+                          ["Épuisé(e) 😴", "Survolté(e) ⚡", "Libéré(e) 🕊️", "En mode zombie 🧟"])
+
+with col2:
+    programme = st.selectbox("Ton programme ce soir :", 
+                             ["Dormir 12h d'affilée", "Une grosse fête 🎉", "Netflix & Chill 🍿", "Rien faire du tout"])
+    couleur_choisie = st.color_picker("Couleur du diplôme :", "#FFD700")
+
+st.write("")
 st.write("")
 
-# --- 4. LE BOUTON MAGIQUE ---
-if st.button("Voir la surprise 🎁"):
+# --- 3. LE BOUTON FINAL ---
+if st.button("Générer mon rapport de fin d'année 🎁"):
     
-    # Barre de chargement
-    progress_text = "Chargement de la surprise..."
-    my_bar = st.progress(0, text=progress_text)
+    if not prenom:
+        st.warning("⚠️ Hé ! Il faut mettre ton prénom pour avoir la surprise !")
+    else:
+        # Suspense...
+        progress_text = "Analyse des résultats..."
+        my_bar = st.progress(0, text=progress_text)
+        
+        for percent in range(100):
+            time.sleep(0.02)
+            my_bar.progress(percent + 1, text="Impression du certificat officiel...")
+        
+        time.sleep(0.5)
+        my_bar.empty()
+        
+        # --- 4. LA SURPRISE (Double effet) ---
+        st.balloons() # Ballons
+        time.sleep(1)
+        st.snow()     # Neige (effet paillettes)
 
-    for percent_complete in range(100):
-        time.sleep(0.015) 
-        my_bar.progress(percent_complete + 1, text=progress_text)
+        # --- 5. LE DIPLÔME (HTML/CSS Avancé) ---
+        # On insère les variables (prenom, humeur, etc) dans le texte HTML
+        html_diploma = f"""
+        <div style="
+            border: 4px solid {couleur_choisie};
+            padding: 30px;
+            border-radius: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            text-align: center;
+            box-shadow: 0 0 30px {couleur_choisie};
+            margin-top: 20px;
+            animation: popIn 1s ease-out;
+        ">
+            <svg width="150" height="150" viewBox="0 0 24 24" style="margin-bottom: 20px;">
+                <path fill="{couleur_choisie}" d="M12 2l-3 6-6 1 4.5 4L6 19l6-3 6 3-1.5-6 4.5-4-6-1-3-6z"/> 
+                </svg>
 
-    time.sleep(0.25)
-    
-    my_bar.empty() # On efface la barre
-    
-    # Lâcher de ballons
-    st.balloons()
-    
-    # --- 5. LE CŒUR ---
-    html_heart = f"""
-    <div style="display: flex; justify-content: center; margin-top: 30px; animation: heartbeat 1.5s infinite;">
-        <svg width="250" height="250" viewBox="0 0 24 24">
-            <path fill="{couleur_choisie}" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-        </svg>
-    </div>
-    <style>
-    @keyframes heartbeat {{
-        0% {{ transform: scale(1); }}
-        50% {{ transform: scale(1.1); }}
-        100% {{ transform: scale(1); }}
-    }}
-    </style>
-    """
-    st.markdown(html_heart, unsafe_allow_html=True)
+            <h1 style="color: white; font-family: 'Times New Roman', serif; text-transform: uppercase; letter-spacing: 2px;">
+                CERTIFICAT DE SURVIE
+            </h1>
+            
+            <p style="color: #DDDDDD; font-size: 18px;">Décerné officiellement à</p>
+            
+            <h2 style="color: {couleur_choisie}; font-size: 50px; margin: 10px 0; text-shadow: 0 0 10px rgba(0,0,0,0.5);">
+                {prenom}
+            </h2>
+            
+            <hr style="border-color: {couleur_choisie}; opacity: 0.5; width: 50%; margin: 20px auto;">
+            
+            <p style="font-size: 20px; color: white;">
+                A survécu aux examens en étant <strong>{humeur}</strong>.<br>
+                Est autorisé(e) à commencer immédiatement :<br>
+                <span style="font-size: 28px; font-weight: bold; color: {couleur_choisie};">{programme}</span>
+            </p>
+            
+            <div style="margin-top: 30px; font-style: italic; color: #888;">
+                Fait le 15 Janvier 2026 <br>
+                Signature: <span style="font-family: 'Brush Script MT', cursive; font-size: 24px;">Le Comité des Vacances</span>
+            </div>
+        </div>
 
-    # --- 6. LE TEXTE ---
-    ligne_1 = "Les examens sont (enfin)"
-    ligne_2 = "FINIS !!"
-    ligne_3 = "Bonnes vacances 🍹"
-
-    st.markdown(f"""
-    <div style="text-align: center; margin-top: 20px;">
-        <h3 style="color: #DDDDDD; font-weight: normal; margin-bottom: 0;">{ligne_1}</h3>
-        <h1 style="color: white; font-size: 60px; margin-top: 10px; margin-bottom: 10px; text-shadow: 0 0 10px {couleur_choisie};">
-            {ligne_2}
-        </h1>
-        <h3 style="color: {couleur_choisie}; font-style: italic;">{ligne_3}</h3>
-    </div>
-    """, unsafe_allow_html=True)
+        <style>
+        @keyframes popIn {{
+            0% {{ transform: scale(0); opacity: 0; }}
+            80% {{ transform: scale(1.05); opacity: 1; }}
+            100% {{ transform: scale(1); }}
+        }}
+        </style>
+        """
+        
+        st.markdown(html_diploma, unsafe_allow_html=True)
