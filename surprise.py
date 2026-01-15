@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import base64
 import random
-import textwrap  # <--- AJOUTÉ POUR RÉPARER L'AFFICHAGE
+import textwrap
 
 # --- 1. FONCTIONS ET CACHE ---
 @st.cache_data
@@ -122,60 +122,24 @@ if bouton_clique:
         liste_interdits_html = " • ".join(interdits) if interdits else "Aucun (T'es courageux)"
         num_vol = f"FLT-{random.randint(100,999)}"
 
-        # ICI : textwrap.dedent nettoie l'indentation pour que le HTML soit lu correctement
+        # ... (ton code précédent)
+        
+        # Le textwrap.dedent va supprimer l'indentation de gauche automatiquement
         html_ticket = textwrap.dedent(f"""
-            <div style="font-family: 'Courier New', monospace; border: 2px dashed {couleur_choisie}; background: #1a1a1a; padding: 0; border-radius: 15px; margin-top: 20px; box-shadow: 0 0 30px {couleur_choisie}40; overflow: hidden; animation: slideUp 0.8s ease-out; color: white;">
-                
-                <div style="background: {couleur_choisie}; padding: 15px; text-align: center;">
-                    <h2 style="margin:0; color: #1a1a1a; font-weight: 900; letter-spacing: 4px; text-transform: uppercase;">BOARDING PASS</h2>
-                    <div style="font-size: 12px; color: #1a1a1a; font-weight: bold;">OFFICIAL RELEASE DOCUMENT</div>
-                </div>
-
-                <div style="padding: 20px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
-                        <div>
-                            <div style="color: #888; font-size: 10px; text-transform: uppercase;">PASSENGER</div>
-                            <div style="font-size: 24px; font-weight: bold; color: white;">{prenom}</div>
-                        </div>
-                        <div style="text-align: right;">
-                            <div style="color: #888; font-size: 10px; text-transform: uppercase;">FLIGHT N°</div>
-                            <div style="font-size: 24px; font-weight: bold; color: {couleur_choisie};">{num_vol}</div>
-                        </div>
+            <div style="background: {couleur_choisie}; padding: 15px; text-align: center;">
+                <h2 style="margin:0; color: #1a1a1a; font-weight: 900; letter-spacing: 4px;">BOARDING PASS</h2>
+                <div style="font-size: 12px; color: #1a1a1a; font-weight: bold;">OFFICIAL RELEASE DOCUMENT</div>
+            </div>
+            
+            <div style="padding: 20px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                    <div>
+                        <div style="color: #888; font-size: 10px; text-transform: uppercase;">PASSENGER</div>
+                        <div style="font-size: 24px; font-weight: bold; color: white;">{prenom}</div>
                     </div>
-
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 15px;">
-                        <div>
-                            <div style="color: #888; font-size: 10px; text-transform: uppercase;">DESTINATION</div>
-                            <div style="font-size: 18px; color: white;">{activite}</div>
-                        </div>
-                        <div style="text-align: right;">
-                            <div style="color: #888; font-size: 10px; text-transform: uppercase;">BATTERY STATUS</div>
-                            <div style="font-size: 16px; color: white;">{batterie}</div>
-                        </div>
-                    </div>
-
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                        <div>
-                            <div style="color: #888; font-size: 10px; text-transform: uppercase;">TRANSPORT</div>
-                            <div style="font-size: 16px; font-style: italic;">{transport}</div>
-                        </div>
-                        <div style="background: white; width: 50px; height: 50px; padding: 2px;">
-                            <div style="background: black; width: 100%; height: 100%; opacity: 0.8;"></div>
-                        </div>
-                    </div>
-
-                    <div style="background: #2d2d2d; padding: 10px; border-radius: 8px; border-left: 4px solid #ff4b4b; margin-top: 15px;">
-                        <div style="color: #ff4b4b; font-size: 10px; font-weight: bold; text-transform: uppercase;">⛔ Security Alert / Zone Interdite</div>
-                        <div style="font-size: 12px; color: #ddd; margin-top: 3px;">{liste_interdits_html}</div>
-                    </div>
-
-                </div>
-                
-                <div style="background: white; height: 30px; margin: 10px 20px; background-image: linear-gradient(90deg, #000 50%, transparent 50%); background-size: 4px 100%;"></div>
-                <div style="text-align: center; font-size: 10px; color: #555; padding-bottom: 10px;">{random.randint(1000000000,9999999999)}</div>
-
+                     </div>
             </div>
             <style> @keyframes slideUp {{ from {{ transform: translateY(50px); opacity: 0; }} to {{ transform: translateY(0); opacity: 1; }} }} </style>
         """)
-        
+
         st.markdown(html_ticket, unsafe_allow_html=True)
