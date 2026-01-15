@@ -3,178 +3,154 @@ import time
 import base64
 import random
 
-# --- 1. FONCTIONS ET CACHE ---
+# --- 1. FONCTIONS TECHNIQUES (AUDIO & DESIGN) ---
+
 @st.cache_data
 def get_audio_base64(fichier_audio):
-    with open(fichier_audio, "rb") as f:
-        data = f.read()
-    return base64.b64encode(data).decode()
+    """Transforme le MP3 en code lisible par le navigateur"""
+    try:
+        with open(fichier_audio, "rb") as f:
+            data = f.read()
+        return base64.b64encode(data).decode()
+    except FileNotFoundError:
+        return None
 
-def jouer_musique_locale(fichier_audio):
-    b64 = get_audio_base64(fichier_audio)
-    md = f"""
-        <audio autoplay>
-        <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
-        </audio>
-        """
-    st.markdown(md, unsafe_allow_html=True)
+def jouer_musique(fichier):
+    """Joue la musique sans recharger la page"""
+    b64 = get_audio_base64(fichier)
+    if b64:
+        md = f"""
+            <audio autoplay>
+            <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
+            </audio>
+            """
+        st.markdown(md, unsafe_allow_html=True)
 
-# --- 2. CONFIGURATION & CSS ---
+def generer_html_ticket(prenom, batterie, activite, transport, couleur, interdits):
+    """
+    C'est ici que la magie visuelle opère 🎨.
+    On sépare le design du reste du code pour y voir plus clair.
+    """
+    num_vol = f"JAN-{random.randint(10,99)}"
+    seat = f"{random.choice(['A','B','C','D','E','F'])}{random.randint(1,30)}"
+    gate = f"G{random.randint(1,12)}"
+    liste_interdits = " • ".join(interdits) if interdits else "NÉANT (Risqué...)"
+    
+    # Le gros bloc HTML est isolé ici
+    html = f"""
+    <div style="font-family: 'Courier New', monospace; border: 2px dashed {couleur}; background: #1a1a1a; border-radius: 15px; margin-top: 20px; box-shadow: 0 0 30px {couleur}40; overflow: hidden; animation: slideUp 0.8s ease-out; color: white;">
+        
+        <div style="background: {couleur}; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center;">
+            <div style="color: #1a1a1a; font-weight: 900; letter-spacing: 2px; font-size: 20px;">BOARDING PASS</div>
+            <div style="color: #1a1a1a; font-weight: bold;">Priority: HIGH</div>
+        </div>
+
+        <div style="padding: 20px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 25px;">
+                <div>
+                    <div style="color: #666; font-size: 10px; text-transform: uppercase;">PASSENGER NAME</div>
+                    <div style="font-size: 26px; font-weight: bold; text-transform: uppercase; color: white;">{prenom}</div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="color: #666; font-size: 10px; text-transform: uppercase;">FLIGHT</div>
+                    <div style="font-size: 26px; font-weight: bold; color: {couleur};">{num_vol}</div>
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                <div style="flex: 1;">
+                    <div style="color: #666; font-size: 10px;">DESTINATION</div>
+                    <div style="font-size: 16px; font-weight: bold;">{activite}</div>
+                </div>
+                <div style="flex: 1; text-align: center;">
+                    <div style="color: #666; font-size: 10px;">GATE</div>
+                    <div style="font-size: 20px; font-weight: bold; color: {couleur};">{gate}</div>
+                </div>
+                <div style="flex: 1; text-align: right;">
+                    <div style="color: #666; font-size: 10px;">SEAT</div>
+                    <div style="font-size: 20px; font-weight: bold; color: {couleur};">{seat}</div>
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; padding-bottom: 15px; border-bottom: 1px solid #333; margin-bottom: 15px;">
+                <div>
+                     <div style="color: #666; font-size: 10px;">MODE TRANSPORT</div>
+                     <div style="font-size: 14px; font-style: italic;">{transport}</div>
+                </div>
+                <div style="text-align: right;">
+                     <div style="color: #666; font-size: 10px;">BATTERY</div>
+                    <div style="font-size: 14px;">{batterie}</div>
+                </div>
+            </div>
+
+            <div style="background: rgba(255, 75, 75, 0.1); padding: 8px; border-radius: 5px; border-left: 3px solid #ff4b4b;">
+                <div style="color: #ff4b4b; font-size: 9px; font-weight: bold; text-transform: uppercase;">⛔ ITEMS CONFISQUÉS A LA DOUANE</div>
+                <div style="font-size: 11px; color: #ccc; margin-top: 2px;">{liste_interdits}</div>
+            </div>
+        </div>
+        
+        <div style="background: white; padding: 10px;">
+            <div style="height: 25px; background-image: linear-gradient(90deg, #000 50%, transparent 50%); background-size: 3px 100%;"></div>
+            <div style="text-align: center; color: black; font-size: 10px; margin-top: 5px; font-family: monospace;">{random.randint(100000000000,999999999999)}</div>
+        </div>
+    </div>
+    <style> @keyframes slideUp {{ from {{ transform: translateY(50px); opacity: 0; }} to {{ transform: translateY(0); opacity: 1; }} }} </style>
+    """
+    return html
+
+# --- 2. CONFIGURATION PAGE & CSS GLOBAL ---
 st.set_page_config(page_title="Check-out Janvier", page_icon="🎫", layout="centered")
 
 st.markdown("""
     <style>
     .stApp { background-color: #0E1117; }
-    .stTextInput > div > div > input { color: white; background-color: #262730; }
-    p, label, .stMarkdown { color: white !important; }
+    /* Champs de saisie stylisés */
+    .stTextInput input { color: white !important; background-color: #262730 !important; border: 1px solid #444; }
+    .stSelectbox div[data-baseweb="select"] > div { background-color: #262730 !important; color: white; }
+    p, label { color: #eee !important; }
     
-    /* BOUTON STYLÉ */
+    /* Bouton principal */
     .stButton>button {
-        width: 100%; height: 70px;
-        background: linear-gradient(90deg, #FF007F, #6600FF);
-        color: white; font-size: 20px; font-weight: bold;
-        border: none; border-radius: 15px;
-        transition: 0.4s; margin-top: 20px;
+        width: 100%; height: 60px;
+        background: linear-gradient(45deg, #FF007F, #6600FF);
+        color: white; font-size: 18px; font-weight: bold;
+        border: none; border-radius: 12px;
+        margin-top: 15px; transition: 0.3s;
     }
-    .stButton>button:hover { transform: scale(1.02); box-shadow: 0px 0px 25px rgba(102, 0, 255, 0.6); }
-
-    /* NEIGE */
-    .snowflake {
-        color: #fff; font-size: 1.5em; font-family: Arial; text-shadow: 0 0 1px #000;
-        position: fixed; top: -10%; z-index: 9999; user-select: none; pointer-events: none;
-        animation: snowflakes-fall 10s linear infinite, snowflakes-shake 3s ease-in-out infinite;
-    }
-    @keyframes snowflakes-fall { 0% { top: -10%; } 100% { top: 100%; } }
-    @keyframes snowflakes-shake { 0% { transform: translateX(0px); } 50% { transform: translateX(80px); } 100% { transform: translateX(0px); } }
-    
-    .snowflake:nth-of-type(1) { left: 1%; animation-delay: 0s, 0s; }
-    .snowflake:nth-of-type(2) { left: 10%; animation-delay: 1s, 1s; }
-    .snowflake:nth-of-type(3) { left: 20%; animation-delay: 6s, .5s; }
-    .snowflake:nth-of-type(4) { left: 30%; animation-delay: 4s, 2s; }
-    .snowflake:nth-of-type(5) { left: 40%; animation-delay: 2s, 2s; }
-    .snowflake:nth-of-type(6) { left: 50%; animation-delay: 8s, 3s; }
-    .snowflake:nth-of-type(7) { left: 60%; animation-delay: 6s, 2s; }
-    .snowflake:nth-of-type(8) { left: 70%; animation-delay: 2.5s, 1s; }
-    .snowflake:nth-of-type(9) { left: 80%; animation-delay: 1s, 0s; }
-    .snowflake:nth-of-type(10) { left: 90%; animation-delay: 3s, 1.5s; }
+    .stButton>button:hover { transform: scale(1.02); box-shadow: 0 0 20px rgba(102,0,255,0.5); }
     </style>
-    
-    <div class="snowflake">❅</div><div class="snowflake">❆</div><div class="snowflake">❄</div>
-    <div class="snowflake">❅</div><div class="snowflake">❆</div><div class="snowflake">❄</div>
-    <div class="snowflake">❅</div><div class="snowflake">❆</div><div class="snowflake">❄</div>
 """, unsafe_allow_html=True)
 
-# --- 3. INTERFACE ---
+# --- 3. UI PRINCIPALE ---
 st.title("❄️ Check-out : Session Janvier")
-st.write("Configure ton extraction vers la liberté.")
 
-# Ligne 1 : Identité et Batterie
 col1, col2 = st.columns(2)
 with col1:
-    prenom = st.text_input("Ton Prénom (Agent en fuite) :", placeholder="Ex: Basil")
-    batterie = st.select_slider("État vital actuel :", 
-        options=["💀 1% (HS)", "😫 20% (Eco)", "😐 50% (Stable)", "😁 80% (Charge)", "🚀 100% (Full)"],
-        value="😫 20% (Eco)")
+    prenom = st.text_input("Identité du passager :", placeholder="Ton Prénom")
+    batterie = st.select_slider("Niveau d'énergie :", options=["1% 💀", "20% 😫", "50% 😐", "80% 😁", "100% 🚀"], value="20% 😫")
+    couleur = st.color_picker("Thème du billet :", "#00FFFF")
 
-# Ligne 2 : Destination et Transport
 with col2:
-    activite = st.selectbox("Mission Prioritaire :", 
-        ["Hibernation totale 🐻", "Raclette Party 🧀", "Marathon Netflix 📺", "Ski extrême ⛷️", "Plage Mentale 🏖️", "Fuite à l'étranger ✈️", "Apéro infini 🍻"])
-    
-    transport = st.selectbox("Moyen d'exfiltration :", 
-        ["Téléportation", "Dos de Dragon", "Train Fantôme", "Fusée SpaceX", "Trotinette volée", "À la nage"])
+    activite = st.selectbox("Destination :", ["Hibernation 🐻", "Raclette 🧀", "Netflix & Chill 📺", "Ski ⛷️", "Soleil 🏖️"])
+    transport = st.selectbox("Moyen de transport :", ["Téléportation", "Train", "Avion", "Dos de Dragon", "Catapulte"])
+    interdits = st.multiselect("Zone Interdite (Blacklist) :", ["Excel", "Teams", "Réveil", "Cravate", "Le mot 'ASAP'"], default=["Excel", "Teams"])
 
-# Ligne 3 : Options et Blacklist
-c1, c2 = st.columns([1, 2])
-with c1:
-    couleur_choisie = st.color_picker("Couleur du Pass :", "#00FFFF")
-with c2:
-    interdits = st.multiselect("OBJETS STRICTEMENT INTERDITS :", 
-                               ["Réunions Teams", "Tableaux Excel", "Le mot 'Urgent'", "Réveil matin", "Costume/Cravate", "Appels masqués"],
-                               default=["Réunions Teams", "Tableaux Excel"])
-
-# Bouton d'action
+# --- 4. ACTION ---
 st.write("")
-c_left, c_center, c_right = st.columns([1, 2, 1])
-with c_center:
-    bouton_clique = st.button("IMPRIMER LE BOARDING PASS 🚀")
-
-# --- 4. LOGIQUE & TICKET ---
-if bouton_clique:
+if st.button("GÉNÉRER MON PASS DE SORTIE 🚀"):
     if not prenom:
-        st.warning("⚠️ Identité requise pour l'exfiltration !")
+        st.warning("⚠️ Eh oh, on ne part pas sans nom !")
     else:
-        # Son et Animation
-        try:
-            jouer_musique_locale("Layla.mp3") 
-        except:
-            pass # On ignore silencieusement si pas de son, pour ne pas casser l'app
+        # 1. Musique
+        jouer_musique("Layla.mp3")
         
-        barre = st.progress(0, text="Génération du ticket...")
-        for i in range(100):
-            time.sleep(0.015)
-            barre.progress(i + 1)
-        time.sleep(0.2)
-        barre.empty()
+        # 2. Barre de chargement (Suspense...)
+        with st.spinner("Impression du ticket en cours..."):
+            time.sleep(2) # Juste pour le show
+            
+        # 3. Animation finale
         st.balloons()
         
-        # Formatage de la liste des interdits pour le HTML
-        liste_interdits_html = " • ".join(interdits) if interdits else "Aucun (T'es courageux)"
-        num_vol = f"FLT-{random.randint(100,999)}"
-
-        # HTML DU TICKET AMÉLIORÉ
-        html_ticket = f"""
-        <div style="font-family: 'Courier New', monospace; border: 2px dashed {couleur_choisie}; background: #1a1a1a; padding: 0; border-radius: 15px; margin-top: 20px; box-shadow: 0 0 30px {couleur_choisie}40; overflow: hidden; animation: slideUp 0.8s ease-out; color: white;">
-            
-            <div style="background: {couleur_choisie}; padding: 15px; text-align: center;">
-                <h2 style="margin:0; color: #1a1a1a; font-weight: 900; letter-spacing: 4px; text-transform: uppercase;">BOARDING PASS</h2>
-                <div style="font-size: 12px; color: #1a1a1a; font-weight: bold;">OFFICIAL RELEASE DOCUMENT</div>
-            </div>
-
-            <div style="padding: 20px;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
-                    <div>
-                        <div style="color: #888; font-size: 10px; text-transform: uppercase;">PASSENGER</div>
-                        <div style="font-size: 24px; font-weight: bold; color: white;">{prenom}</div>
-                    </div>
-                    <div style="text-align: right;">
-                        <div style="color: #888; font-size: 10px; text-transform: uppercase;">FLIGHT N°</div>
-                        <div style="font-size: 24px; font-weight: bold; color: {couleur_choisie};">{num_vol}</div>
-                    </div>
-                </div>
-
-                <div style="display: flex; justify-content: space-between; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 15px;">
-                    <div>
-                        <div style="color: #888; font-size: 10px; text-transform: uppercase;">DESTINATION</div>
-                        <div style="font-size: 18px; color: white;">{activite}</div>
-                    </div>
-                    <div style="text-align: right;">
-                         <div style="color: #888; font-size: 10px; text-transform: uppercase;">BATTERY STATUS</div>
-                        <div style="font-size: 16px; color: white;">{batterie}</div>
-                    </div>
-                </div>
-
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                    <div>
-                         <div style="color: #888; font-size: 10px; text-transform: uppercase;">TRANSPORT</div>
-                         <div style="font-size: 16px; font-style: italic;">{transport}</div>
-                    </div>
-                    <div style="background: white; width: 50px; height: 50px; padding: 2px;">
-                        <div style="background: black; width: 100%; height: 100%; opacity: 0.8;"></div>
-                    </div>
-                </div>
-
-                <div style="background: #2d2d2d; padding: 10px; border-radius: 8px; border-left: 4px solid #ff4b4b; margin-top: 15px;">
-                    <div style="color: #ff4b4b; font-size: 10px; font-weight: bold; text-transform: uppercase;">⛔ Security Alert / Zone Interdite</div>
-                    <div style="font-size: 12px; color: #ddd; margin-top: 3px;">{liste_interdits_html}</div>
-                </div>
-
-            </div>
-            
-            <div style="background: white; height: 30px; margin: 10px 20px; background-image: linear-gradient(90deg, #000 50%, transparent 50%); background-size: 4px 100%;"></div>
-            <div style="text-align: center; font-size: 10px; color: #555; padding-bottom: 10px;">{random.randint(1000000000,9999999999)}</div>
-
-        </div>
-        <style> @keyframes slideUp {{ from {{ transform: translateY(50px); opacity: 0; }} to {{ transform: translateY(0); opacity: 1; }} }} </style>
-        """
-        st.markdown(html_ticket, unsafe_allow_html=True)
+        # 4. Appel de la fonction pour récupérer le HTML propre
+        html_final = generer_html_ticket(prenom, batterie, activite, transport, couleur, interdits)
+        st.markdown(html_final, unsafe_allow_html=True)
