@@ -143,13 +143,30 @@ if bouton_clique:
     if not prenom:
         st.warning("⚠️ Remplis ton prénom pour valider ton ticket !")
     else:
-        # 1. Petite animation de chargement
-        barre = st.progress(0, text="Sauvegarde des neurones restants...")
+        # --- 1. LANCER LA MUSIQUE EN PREMIER (PRIORITÉ ABSOLUE) ---
+        try:
+            jouer_musique_locale("Layla.mp3") 
+        except FileNotFoundError:
+            st.error("Fichier audio introuvable")
+
+        # --- 2. ENSUITE L'ANIMATION ---
+        # La musique joue déjà pendant que la barre charge !
+        barre = st.progress(0, text="Connexion au paradis...")
         for i in range(100):
-            time.sleep(0.01)
+            time.sleep(0.01) # Le délai ne bloque plus la musique
             barre.progress(i + 1)
         time.sleep(0.2)
         barre.empty()
+        
+        # --- 3. LES BALLONS ---
+        st.balloons()
+        
+        # --- 4. LE TICKET ---
+        # (Copie ici tout ton bloc html_ticket = ... et st.markdown(html_ticket))
+        html_ticket = f"""
+        ... (ton code HTML du ticket) ...
+        """
+        st.markdown(html_ticket, unsafe_allow_html=True)
         
         # 2. On lance les ballons
         st.balloons()
