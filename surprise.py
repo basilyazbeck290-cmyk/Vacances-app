@@ -18,6 +18,7 @@ st.markdown("""
     p, label {
         color: white !important;
     }
+    /* J'ai gardé ton style de bouton, il s'adaptera à la colonne */
     .stButton>button {
         width: 100%;
         height: 70px;
@@ -28,14 +29,14 @@ st.markdown("""
         border: none;
         border-radius: 15px;
         transition: 0.4s;
-        margin-top: 20px;
+        margin-top: 10px;
     }
     .stButton>button:hover {
         transform: scale(1.02);
         box-shadow: 0px 0px 20px rgba(102, 0, 255, 0.5);
     }
 
-    /* --- AJOUT : EFFET NEIGE --- */
+    /* --- EFFET NEIGE --- */
     .snowflake {
         color: #fff;
         font-size: 1.5em;
@@ -45,7 +46,7 @@ st.markdown("""
         top: -10%;
         z-index: 9999;
         user-select: none;
-        pointer-events: none; /* Important pour pouvoir cliquer à travers la neige */
+        pointer-events: none;
         animation-name: snowflakes-fall, snowflakes-shake;
         animation-duration: 10s, 3s;
         animation-timing-function: linear, ease-in-out;
@@ -62,7 +63,6 @@ st.markdown("""
         100% { transform: translateX(0px); }
     }
 
-    /* Positionnement aléatoire des flocons */
     .snowflake:nth-of-type(1) { left: 1%; animation-delay: 0s, 0s; }
     .snowflake:nth-of-type(2) { left: 10%; animation-delay: 1s, 1s; }
     .snowflake:nth-of-type(3) { left: 20%; animation-delay: 6s, .5s; }
@@ -75,15 +75,9 @@ st.markdown("""
     .snowflake:nth-of-type(10) { left: 90%; animation-delay: 3s, 1.5s; }
     </style>
 
-    <div class="snowflake">❅</div>
-    <div class="snowflake">❆</div>
-    <div class="snowflake">❄</div>
-    <div class="snowflake">❅</div>
-    <div class="snowflake">❆</div>
-    <div class="snowflake">❄</div>
-    <div class="snowflake">❅</div>
-    <div class="snowflake">❆</div>
-    <div class="snowflake">❄</div>
+    <div class="snowflake">❅</div><div class="snowflake">❆</div><div class="snowflake">❄</div>
+    <div class="snowflake">❅</div><div class="snowflake">❆</div><div class="snowflake">❄</div>
+    <div class="snowflake">❅</div><div class="snowflake">❆</div><div class="snowflake">❄</div>
     <div class="snowflake">❅</div>
 """, unsafe_allow_html=True)
 
@@ -96,9 +90,22 @@ col1, col2 = st.columns(2)
 
 with col1:
     prenom = st.text_input("Ton Prénom :", placeholder="Ex: Chloé")
-    batterie = st.select_slider("Niveau de batterie actuel :", 
-                                options=["0% (HS)", "20% (Éco)", "50% (Ça va)", "100% (Machine)"],
-                                value="20% (Éco)")
+    
+    # --- MODIFICATION ICI : Slider Émotionnel ---
+    options_batterie = [
+        "1% (Critique 💀)", 
+        "20% (Au bout du rouleau 😫)", 
+        "40% (Fragile 🫤)", 
+        "60% (Stable 😐)", 
+        "80% (En forme 😁)", 
+        "100% (Machine de guerre 🚀)"
+    ]
+    
+    batterie = st.select_slider(
+        "Niveau de batterie actuel :", 
+        options=options_batterie,
+        value="20% (Au bout du rouleau 😫)"
+    )
 
 with col2:
     activite = st.selectbox("Objectif prioritaire :", 
@@ -106,9 +113,16 @@ with col2:
     couleur_choisie = st.color_picker("Couleur du Pass :", "#00FFFF")
 
 st.write("")
+st.write("") # Un peu d'espace
 
-# --- 3. LE BOUTON ---
-if st.button("ACTIVER LE MODE VACANCES 🚀"):
+# --- 3. LE BOUTON CENTRÉ ---
+# Astuce : On crée 3 colonnes [petite, grande, petite] et on met le bouton au milieu
+c_left, c_center, c_right = st.columns([1, 2, 1])
+
+with c_center:
+    bouton_clique = st.button("ACTIVER LE MODE VACANCES 🚀")
+
+if bouton_clique:
     
     if not prenom:
         st.warning("⚠️ Remplis ton prénom pour valider ton ticket !")
@@ -123,10 +137,9 @@ if st.button("ACTIVER LE MODE VACANCES 🚀"):
         
         st.balloons()
         
-        # --- 4. LE TICKET (CORRECTION ICI) ---
-        # J'ai tout collé à gauche pour éviter que ça s'affiche comme du code
+        # --- 4. LE TICKET ---
         html_ticket = f"""
-<div style="font-family: Arial, sans-serif; border: 3px dashed {couleur_choisie}; background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%); padding: 30px; border-radius: 15px; text-align: center; margin-top: 30px; box-shadow: 0 0 25px {couleur_choisie}50; position: relative; overflow: hidden; animation: slideUp 0.8s ease-out;">
+<div style="font-family: Arial, sans-serif; border: 3px dashed {couleur_choisie}; background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%); padding: 30px; border-radius: 15px; text-align: center; margin-top: 10px; box-shadow: 0 0 25px {couleur_choisie}50; position: relative; overflow: hidden; animation: slideUp 0.8s ease-out;">
     <div style="background-color: {couleur_choisie}; color: black; font-weight: bold; padding: 5px 15px; display: inline-block; border-radius: 20px; margin-bottom: 20px; text-transform: uppercase; font-size: 14px;">
         Session Janvier Terminée
     </div>
@@ -137,14 +150,14 @@ if st.button("ACTIVER LE MODE VACANCES 🚀"):
     <h2 style="color: white; font-size: 50px; margin: 10px 0;">{prenom}</h2>
     <div style="border-top: 1px solid #555; margin: 20px 0;"></div>
     <div style="display: flex; justify-content: space-around; align-items: center;">
-        <div>
+        <div style="flex: 1;">
             <p style="color: {couleur_choisie}; font-size: 12px; text-transform: uppercase; margin: 0;">État des lieux</p>
-            <p style="color: white; font-size: 20px; font-weight: bold; margin: 5px 0;">{batterie}</p>
+            <p style="color: white; font-size: 16px; font-weight: bold; margin: 5px 0;">{batterie}</p>
         </div>
-        <div style="font-size: 30px;">✈️</div>
-        <div>
+        <div style="font-size: 30px; padding: 0 10px;">✈️</div>
+        <div style="flex: 1;">
             <p style="color: {couleur_choisie}; font-size: 12px; text-transform: uppercase; margin: 0;">Destination</p>
-            <p style="color: white; font-size: 20px; font-weight: bold; margin: 5px 0;">{activite}</p>
+            <p style="color: white; font-size: 18px; font-weight: bold; margin: 5px 0;">{activite}</p>
         </div>
     </div>
     <div style="margin-top: 30px; font-size: 12px; color: #777;">
