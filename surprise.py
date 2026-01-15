@@ -43,7 +43,7 @@ st.markdown("""
         border: none;
         border-radius: 15px;
         transition: 0.4s;
-        margin-top: 10px;
+        margin-top: 20px;
     }
     .stButton>button:hover {
         transform: scale(1.02);
@@ -93,19 +93,14 @@ with col1:
 with col2:
     st.write("❄️")
     activite = st.selectbox("Mission Prioritaire :", ["Hibernation totale 🐻", "Raclette Party 🧀", "Marathon De Films 📺", "Aller skier ⛷️", "Fuite à l'étranger ✈️", "Apéro infini 🍻"])
-    # ICI : LE NOUVEAU MENU TRANSPORT
     transport = st.selectbox("Moyen d'exfiltration :", ["Téléportation", "Jet Privé", "Dos de Dragon", "Trottinette Électrique", "Tapis Volant", "Uber Copter"])
 
-st.write(""); st.write("")
-
-# SECTION COULEUR (CENTRÉE)
-c_left, c_center, c_right = st.columns([1, 1, 1])
-with c_center:
-    couleur_choisie = st.color_picker("Couleur du Pass :", "#00FFFF")
+# ON FIXE LA COULEUR AUTOMATIQUEMENT ICI
+couleur_choisie = "#00FFFF" 
 
 st.write(""); st.write("")
 
-# LE BOUTON (Il doit être créé AVANT le bloc "if bouton_clique")
+# LE BOUTON
 bt_left, bt_center, bt_right = st.columns([1, 2, 1])
 with bt_center:
     bouton_clique = st.button("IMPRIMER LE BOARDING PASS 🚀")
