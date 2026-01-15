@@ -68,22 +68,26 @@ if st.button("Voir la surprise 🎁"):
     # Lâcher de ballons
     st.balloons()
     
-    # --- 5. LE CŒUR ---
-    html_heart = f"""
-    <div style="display: flex; justify-content: center; margin-top: 30px; animation: heartbeat 1.5s infinite;">
-        <svg width="250" height="250" viewBox="0 0 24 24">
-            <path fill="{couleur_choisie}" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+# --- 5. LA MAIN ROCK (Remplacement du cœur) ---
+    # J'ai trouvé un dessin SVG de la main rock et j'ai remplacé le chemin du cœur.
+    # J'ai aussi renommé la variable et l'animation pour que ce soit plus cohérent.
+
+    html_hand = f"""
+    <div style="display: flex; justify-content: center; margin-top: 30px; animation: rockPulse 1.5s infinite;">
+        <svg width="250" height="250" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+            <path fill="{couleur_choisie}" d="M482.4 148.2c0-43.9-35.5-79.4-79.4-79.4-30.6 0-57.3 17.3-70.6 42.6-3.3-1-6.8-1.5-10.4-1.5-20 0-36.4 16.2-36.4 36.3 0 2.5 0.3 5.1 0.8 7.5-7.5-6-17-9.7-27.3-9.7-24 0-43.6 19.5-43.6 43.6 0 7.8 2.1 15.2 5.7 21.6-6.4-3.5-13.8-5.5-21.6-5.5-25.3 0-45.8 20.6-45.8 45.9v209.2h149.6c9.5 0 18.7-3.5 25.9-9.7l126.6-108.9c16.8-14.5 26.5-35.6 26.5-57.7V148.2zM193.8 42.3c0-23.4-19-42.3-42.3-42.3S109.2 19 109.2 42.3v205h-53v-33c0-10.8-8.8-19.6-19.6-19.6S17 203.6 17 214.3v84c0 31.1 12.1 61.1 34.2 83.1s52 34.2 83.1 34.2h30V42.3z"/>
         </svg>
     </div>
     <style>
-    @keyframes heartbeat {{
-        0% {{ transform: scale(1); }}
-        50% {{ transform: scale(1.1); }}
-        100% {{ transform: scale(1); }}
+    /* J'ai renommé l'animation 'heartbeat' en 'rockPulse' pour le style */
+    @keyframes rockPulse {{
+        0% {{ transform: scale(1) rotate(0deg); }}
+        50% {{ transform: scale(1.1) rotate(5deg); }} /* Ajout d'une petite rotation stylée */
+        100% {{ transform: scale(1) rotate(0deg); }}
     }}
     </style>
     """
-    st.markdown(html_heart, unsafe_allow_html=True)
+    st.markdown(html_hand, unsafe_allow_html=True)
 
     # --- 6. LE TEXTE (MODIFIABLE ICI) ---
     # Vous pouvez changer les phrases entre les guillemets ci-dessous
