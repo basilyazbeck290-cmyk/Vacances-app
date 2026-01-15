@@ -139,17 +139,17 @@ if bouton_clique:
 <div style="display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap;">
 <div style="flex: 1; min-width: 100px;">
 <p style="color: {couleur_choisie}; font-size: 12px; text-transform: uppercase; margin: 0;">Batterie</p>
-<p style="color: white; font-size: 20px; font-weight: bold; margin: 5px 0;">{batterie}</p>
+<p style="color: white; font-size: 14px; font-weight: bold; margin: 5px 0;">{batterie}</p>
 </div>
 <div style="font-size: 25px; padding: 0 10px;">✈️</div>
 <div style="flex: 1; min-width: 100px;">
 <p style="color: {couleur_choisie}; font-size: 12px; text-transform: uppercase; margin: 0;">Destination</p>
-<p style="color: white; font-size: 20x; font-weight: bold; margin: 5px 0;">{activite}</p>
+<p style="color: white; font-size: 14px; font-weight: bold; margin: 5px 0;">{activite}</p>
 </div>
 <div style="font-size: 25px; padding: 0 10px;">🚀</div>
 <div style="flex: 1; min-width: 100px;">
 <p style="color: {couleur_choisie}; font-size: 12px; text-transform: uppercase; margin: 0;">Transport</p>
-<p style="color: white; font-size: 20px; font-weight: bold; margin: 5px 0;">{transport}</p>
+<p style="color: white; font-size: 14px; font-weight: bold; margin: 5px 0;">{transport}</p>
 </div>
 </div>
             
