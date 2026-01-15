@@ -68,22 +68,22 @@ if st.button("Voir la surprise 🎁"):
     # Lâcher de ballons
     st.balloons()
     
-# --- 5. LA MAIN ROCK (CORRIGÉE 🤘) ---
-    html_hand = f"""
-    <div style="display: flex; justify-content: center; margin-top: 30px; animation: rockPulse 1.5s infinite;">
-                <svg width="250" height="250" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-                        <path fill="{couleur_choisie}" d="M150.4 295.2V80c0-13.3 10.7-24 24-24h24c13.3 0 24 10.7 24 24V295.2c0 22.3 25.6 35.1 43.3 21.7l12.3-9.4C298.7 292 320 304.7 320 328V80c0-13.3 10.7-24 24-24h24c13.3 0 24 10.7 24 24V358.2c0 22.3 25.6 35.1 43.3 21.7l12.3-9.4c20.5-15.6 41.7-2.9 41.7 20.3V448c0 53-43 96-96 96H96c-53 0-96-43-96-96V80c0-13.3 10.7-24 24-24h24c13.3 0 24 10.7 24 24V295.2c0 22.3 25.6 35.1 43.3 21.7l12.3-9.4c20.5-15.6 41.7-2.9 41.7 20.3z"/>
+    # --- 5. LE CŒUR ---
+    html_heart = f"""
+    <div style="display: flex; justify-content: center; margin-top: 30px; animation: heartbeat 1.5s infinite;">
+        <svg width="250" height="250" viewBox="0 0 24 24">
+            <path fill="{couleur_choisie}" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
         </svg>
     </div>
     <style>
-    @keyframes rockPulse {{
-        0% {{ transform: scale(1) rotate(0deg); }}
-        50% {{ transform: scale(1.1) rotate(5deg); }} /* Petite rotation pour le style */
-        100% {{ transform: scale(1) rotate(0deg); }}
+    @keyframes heartbeat {{
+        0% {{ transform: scale(1); }}
+        50% {{ transform: scale(1.1); }}
+        100% {{ transform: scale(1); }}
     }}
     </style>
     """
-    st.markdown(html_hand, unsafe_allow_html=True)
+    st.markdown(html_heart, unsafe_allow_html=True)
 
     # --- 6. LE TEXTE (MODIFIABLE ICI) ---
     # Vous pouvez changer les phrases entre les guillemets ci-dessous
