@@ -68,26 +68,22 @@ if st.button("Voir la surprise 🎁"):
     # Lâcher de ballons
     st.balloons()
     
-# --- 5. LA MAIN ROCK (Remplacement du cœur) ---
-    # J'ai trouvé un dessin SVG de la main rock et j'ai remplacé le chemin du cœur.
-    # J'ai aussi renommé la variable et l'animation pour que ce soit plus cohérent.
-
-    html_hand = f"""
-    <div style="display: flex; justify-content: center; margin-top: 30px; animation: rockPulse 1.5s infinite;">
-        <svg width="250" height="250" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-            <path fill="{couleur_choisie}" d="M482.4 148.2c0-43.9-35.5-79.4-79.4-79.4-30.6 0-57.3 17.3-70.6 42.6-3.3-1-6.8-1.5-10.4-1.5-20 0-36.4 16.2-36.4 36.3 0 2.5 0.3 5.1 0.8 7.5-7.5-6-17-9.7-27.3-9.7-24 0-43.6 19.5-43.6 43.6 0 7.8 2.1 15.2 5.7 21.6-6.4-3.5-13.8-5.5-21.6-5.5-25.3 0-45.8 20.6-45.8 45.9v209.2h149.6c9.5 0 18.7-3.5 25.9-9.7l126.6-108.9c16.8-14.5 26.5-35.6 26.5-57.7V148.2zM193.8 42.3c0-23.4-19-42.3-42.3-42.3S109.2 19 109.2 42.3v205h-53v-33c0-10.8-8.8-19.6-19.6-19.6S17 203.6 17 214.3v84c0 31.1 12.1 61.1 34.2 83.1s52 34.2 83.1 34.2h30V42.3z"/>
-        </svg>
-    </div>
-    <style>
-    /* J'ai renommé l'animation 'heartbeat' en 'rockPulse' pour le style */
-    @keyframes rockPulse {{
-        0% {{ transform: scale(1) rotate(0deg); }}
-        50% {{ transform: scale(1.1) rotate(5deg); }} /* Ajout d'une petite rotation stylée */
-        100% {{ transform: scale(1) rotate(0deg); }}
-    }}
-    </style>
-    """
-    st.markdown(html_hand, unsafe_allow_html=True)
+# --- 5. LA MAIN ROCK (CORRIGÉE 🤘) ---
+    html_hand = f"""
+    <div style="display: flex; justify-content: center; margin-top: 30px; animation: rockPulse 1.5s infinite;">
+                <svg width="250" height="250" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="{couleur_choisie}" d="M150.4 295.2V80c0-13.3 10.7-24 24-24h24c13.3 0 24 10.7 24 24V295.2c0 22.3 25.6 35.1 43.3 21.7l12.3-9.4C298.7 292 320 304.7 320 328V80c0-13.3 10.7-24 24-24h24c13.3 0 24 10.7 24 24V358.2c0 22.3 25.6 35.1 43.3 21.7l12.3-9.4c20.5-15.6 41.7-2.9 41.7 20.3V448c0 53-43 96-96 96H96c-53 0-96-43-96-96V80c0-13.3 10.7-24 24-24h24c13.3 0 24 10.7 24 24V295.2c0 22.3 25.6 35.1 43.3 21.7l12.3-9.4c20.5-15.6 41.7-2.9 41.7 20.3z"/>
+        </svg>
+    </div>
+    <style>
+    @keyframes rockPulse {{
+        0% {{ transform: scale(1) rotate(0deg); }}
+        50% {{ transform: scale(1.1) rotate(5deg); }} /* Petite rotation pour le style */
+        100% {{ transform: scale(1) rotate(0deg); }}
+    }}
+    </style>
+    """
+    st.markdown(html_hand, unsafe_allow_html=True)
 
     # --- 6. LE TEXTE (MODIFIABLE ICI) ---
     # Vous pouvez changer les phrases entre les guillemets ci-dessous
