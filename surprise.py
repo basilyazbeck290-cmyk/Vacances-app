@@ -1,16 +1,18 @@
 import streamlit as st
 import time
 import base64
-import random
 
-# --- 1. FONCTIONS ET CACHE ---
+# --- 1. FONCTIONS ET CACHE (POUR LA VITESSE ⚡) ---
+
 @st.cache_data
 def get_audio_base64(fichier_audio):
+    """Lit et encode le fichier une seule fois pour le garder en mémoire."""
     with open(fichier_audio, "rb") as f:
         data = f.read()
     return base64.b64encode(data).decode()
 
 def jouer_musique_locale(fichier_audio):
+    """Joue le son instantanément depuis le cache"""
     b64 = get_audio_base64(fichier_audio)
     md = f"""
         <audio autoplay>
@@ -19,24 +21,33 @@ def jouer_musique_locale(fichier_audio):
         """
     st.markdown(md, unsafe_allow_html=True)
 
-# --- 2. CONFIGURATION & CSS ---
-st.set_page_config(page_title="Check-out Janvier", page_icon="🎫", layout="centered")
+# --- 2. CONFIGURATION DE LA PAGE ---
+st.set_page_config(page_title="Libération Janvier", page_icon="❄️", layout="centered")
 
+# CSS : Fond sombre, couleurs et... LA NEIGE ❄️
 st.markdown("""
     <style>
     .stApp { background-color: #0E1117; }
     .stTextInput > div > div > input { color: white; background-color: #262730; }
-    p, label, .stMarkdown { color: white !important; }
+    p, label { color: white !important; }
     
     /* BOUTON STYLÉ */
     .stButton>button {
-        width: 100%; height: 70px;
+        width: 100%;
+        height: 70px;
         background: linear-gradient(90deg, #FF007F, #6600FF);
-        color: white; font-size: 20px; font-weight: bold;
-        border: none; border-radius: 15px;
-        transition: 0.4s; margin-top: 20px;
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+        border: none;
+        border-radius: 15px;
+        transition: 0.4s;
+        margin-top: 10px;
     }
-    .stButton>button:hover { transform: scale(1.02); box-shadow: 0px 0px 25px rgba(102, 0, 255, 0.6); }
+    .stButton>button:hover {
+        transform: scale(1.02);
+        box-shadow: 0px 0px 20px rgba(102, 0, 255, 0.5);
+    }
 
     /* NEIGE */
     .snowflake {
@@ -58,122 +69,71 @@ st.markdown("""
     .snowflake:nth-of-type(9) { left: 80%; animation-delay: 1s, 0s; }
     .snowflake:nth-of-type(10) { left: 90%; animation-delay: 3s, 1.5s; }
     </style>
-    
+
     <div class="snowflake">❅</div><div class="snowflake">❆</div><div class="snowflake">❄</div>
     <div class="snowflake">❅</div><div class="snowflake">❆</div><div class="snowflake">❄</div>
     <div class="snowflake">❅</div><div class="snowflake">❆</div><div class="snowflake">❄</div>
+    <div class="snowflake">❅</div>
 """, unsafe_allow_html=True)
+
 
 # --- 3. INTERFACE ---
 st.title("❄️ Check-out : Session Janvier")
-st.write("Configure ton extraction vers la liberté.")
+st.write("Formalités de sortie avant la pause bien méritée")
 
-# Ligne 1 : Identité et Batterie
 col1, col2 = st.columns(2)
 with col1:
-    prenom = st.text_input("Ton Prénom (Agent en fuite) :", placeholder="Ex: Basil")
-    batterie = st.select_slider("État vital actuel :", 
-        options=["💀 1% (HS)", "😫 20% (Eco)", "😐 50% (Stable)", "😁 80% (Charge)", "🚀 100% (Full)"],
-        value="😫 20% (Eco)")
-
-# Ligne 2 : Destination et Transport
+    prenom = st.text_input("Ton Prénom :", placeholder="Ex: Basil")
+    batterie = st.select_slider("Niveau de batterie actuel :", 
+        options=["1% (Critique 💀)", "20% (Au bout du rouleau 😫)", "40% (Fragile 🫤)", "60% (Stable 😐)", "80% (En forme 😁)", "100% (Machine de guerre 🚀)"],
+        value="20% (Au bout du rouleau 😫)")
 with col2:
-    activite = st.selectbox("Mission Prioritaire :", 
-        ["Hibernation totale 🐻", "Raclette Party 🧀", "Marathon Netflix 📺", "Ski extrême ⛷️", "Plage Mentale 🏖️", "Fuite à l'étranger ✈️", "Apéro infini 🍻"])
-    
-    transport = st.selectbox("Moyen d'exfiltration :", 
-        ["Téléportation", "Dos de Dragon", "Train Fantôme", "Fusée SpaceX", "Trotinette volée", "À la nage"])
-
-# Ligne 3 : Options et Blacklist
-c1, c2 = st.columns([1, 2])
-with c1:
+    activite = st.selectbox("Objectif prioritaire :", ["Hibernation totale 🐻", "Raclette Party 🧀", "Marathon De Films 📺", "Aller skier ⛷️"])
     couleur_choisie = st.color_picker("Couleur du Pass :", "#00FFFF")
-with c2:
-    interdits = st.multiselect("OBJETS STRICTEMENT INTERDITS :", 
-                               ["Réunions Teams", "Tableaux Excel", "Le mot 'Urgent'", "Réveil matin", "Costume/Cravate", "Appels masqués"],
-                               default=["Réunions Teams", "Tableaux Excel"])
 
-# Bouton d'action
-st.write("")
+st.write(""); st.write("")
+
 c_left, c_center, c_right = st.columns([1, 2, 1])
 with c_center:
-    bouton_clique = st.button("IMPRIMER LE BOARDING PASS 🚀")
+    bouton_clique = st.button("ACTIVER LE MODE VACANCES 🚀")
 
-# --- 4. LOGIQUE & TICKET ---
+
+# --- 4. LOGIQUE D'ACTIVATION ---
 if bouton_clique:
     if not prenom:
-        st.warning("⚠️ Identité requise pour l'exfiltration !")
+        st.warning("⚠️ Remplis ton prénom pour valider ton ticket !")
     else:
-        # Son et Animation
+        # --- A. MUSIQUE (PRIORITÉ ABSOLUE) ---
+        # On lance le son AVANT de faire attendre l'utilisateur
         try:
             jouer_musique_locale("Layla.mp3") 
-        except:
-            pass # On ignore silencieusement si pas de son, pour ne pas casser l'app
-        
-        barre = st.progress(0, text="Génération du ticket...")
+        except FileNotFoundError:
+            st.error("⚠️ Fichier Layla.mp3 introuvable (Vérifie majuscules/minuscules sur GitHub)")
+
+        # --- B. ANIMATION (Pendant que la musique joue) ---
+        barre = st.progress(0, text="Connexion au paradis...")
         for i in range(100):
-            time.sleep(0.015)
+            time.sleep(0.01) # La musique joue pendant ce temps !
             barre.progress(i + 1)
         time.sleep(0.2)
         barre.empty()
+        
+        # --- C. BALLONS & TICKET ---
         st.balloons()
         
-        # Formatage de la liste des interdits pour le HTML
-        liste_interdits_html = " • ".join(interdits) if interdits else "Aucun (T'es courageux)"
-        num_vol = f"FLT-{random.randint(100,999)}"
-
-        # HTML DU TICKET AMÉLIORÉ
         html_ticket = f"""
-        <div style="font-family: 'Courier New', monospace; border: 2px dashed {couleur_choisie}; background: #1a1a1a; padding: 0; border-radius: 15px; margin-top: 20px; box-shadow: 0 0 30px {couleur_choisie}40; overflow: hidden; animation: slideUp 0.8s ease-out; color: white;">
-            
-            <div style="background: {couleur_choisie}; padding: 15px; text-align: center;">
-                <h2 style="margin:0; color: #1a1a1a; font-weight: 900; letter-spacing: 4px; text-transform: uppercase;">BOARDING PASS</h2>
-                <div style="font-size: 12px; color: #1a1a1a; font-weight: bold;">OFFICIAL RELEASE DOCUMENT</div>
+        <div style="font-family: Arial, sans-serif; border: 3px dashed {couleur_choisie}; background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%); padding: 30px; border-radius: 15px; text-align: center; margin-top: 10px; box-shadow: 0 0 25px {couleur_choisie}50; position: relative; overflow: hidden; animation: slideUp 0.8s ease-out;">
+            <div style="background-color: {couleur_choisie}; color: black; font-weight: bold; padding: 5px 15px; display: inline-block; border-radius: 20px; margin-bottom: 20px; text-transform: uppercase; font-size: 14px;">Session Janvier Terminée</div>
+            <h1 style="color: white; margin: 0; font-size: 40px; text-transform: uppercase; letter-spacing: 3px; text-shadow: 2px 2px 0px {couleur_choisie};">PASS LIBERTÉ</h1>
+            <p style="color: #cccccc; font-size: 16px; margin-top: 5px; font-style: italic;">Valable exclusivement pour :</p>
+            <h2 style="color: white; font-size: 50px; margin: 10px 0;">{prenom}</h2>
+            <div style="border-top: 1px solid #555; margin: 20px 0;"></div>
+            <div style="display: flex; justify-content: space-around; align-items: center;">
+                <div style="flex: 1;"><p style="color: {couleur_choisie}; font-size: 12px; text-transform: uppercase; margin: 0;">État des lieux</p><p style="color: white; font-size: 16px; font-weight: bold; margin: 5px 0;">{batterie}</p></div>
+                <div style="font-size: 30px; padding: 0 10px;">✈️</div>
+                <div style="flex: 1;"><p style="color: {couleur_choisie}; font-size: 12px; text-transform: uppercase; margin: 0;">Destination</p><p style="color: white; font-size: 18px; font-weight: bold; margin: 5px 0;">{activite}</p></div>
             </div>
-
-            <div style="padding: 20px;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
-                    <div>
-                        <div style="color: #888; font-size: 10px; text-transform: uppercase;">PASSENGER</div>
-                        <div style="font-size: 24px; font-weight: bold; color: white;">{prenom}</div>
-                    </div>
-                    <div style="text-align: right;">
-                        <div style="color: #888; font-size: 10px; text-transform: uppercase;">FLIGHT N°</div>
-                        <div style="font-size: 24px; font-weight: bold; color: {couleur_choisie};">{num_vol}</div>
-                    </div>
-                </div>
-
-                <div style="display: flex; justify-content: space-between; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 15px;">
-                    <div>
-                        <div style="color: #888; font-size: 10px; text-transform: uppercase;">DESTINATION</div>
-                        <div style="font-size: 18px; color: white;">{activite}</div>
-                    </div>
-                    <div style="text-align: right;">
-                         <div style="color: #888; font-size: 10px; text-transform: uppercase;">BATTERY STATUS</div>
-                        <div style="font-size: 16px; color: white;">{batterie}</div>
-                    </div>
-                </div>
-
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                    <div>
-                         <div style="color: #888; font-size: 10px; text-transform: uppercase;">TRANSPORT</div>
-                         <div style="font-size: 16px; font-style: italic;">{transport}</div>
-                    </div>
-                    <div style="background: white; width: 50px; height: 50px; padding: 2px;">
-                        <div style="background: black; width: 100%; height: 100%; opacity: 0.8;"></div>
-                    </div>
-                </div>
-
-                <div style="background: #2d2d2d; padding: 10px; border-radius: 8px; border-left: 4px solid #ff4b4b; margin-top: 15px;">
-                    <div style="color: #ff4b4b; font-size: 10px; font-weight: bold; text-transform: uppercase;">⛔ Security Alert / Zone Interdite</div>
-                    <div style="font-size: 12px; color: #ddd; margin-top: 3px;">{liste_interdits_html}</div>
-                </div>
-
-            </div>
-            
-            <div style="background: white; height: 30px; margin: 10px 20px; background-image: linear-gradient(90deg, #000 50%, transparent 50%); background-size: 4px 100%;"></div>
-            <div style="text-align: center; font-size: 10px; color: #555; padding-bottom: 10px;">{random.randint(1000000000,9999999999)}</div>
-
+            <div style="margin-top: 30px; font-size: 12px; color: #777;">Ce document certifie que le cerveau de l'utilisateur est officiellement en veille.<br>Validité : Jusqu'à la reprise (désolé).</div>
         </div>
         <style> @keyframes slideUp {{ from {{ transform: translateY(50px); opacity: 0; }} to {{ transform: translateY(0); opacity: 1; }} }} </style>
         """
