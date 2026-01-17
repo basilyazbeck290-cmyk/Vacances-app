@@ -71,7 +71,7 @@ st.title("❄️ Presque la quille !")
 st.subheader("Check Out : Session Janvier")
 
 with st.container():
-    # st.write("On  y est presque")
+    st.write("  ")
     
     # Prénom : Le point de départ
     prenom = st.text_input("C'est pour quel nom le ticket ?", placeholder="Ton petit nom ici...")
