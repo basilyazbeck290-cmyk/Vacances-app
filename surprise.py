@@ -68,10 +68,10 @@ st.markdown("""
 # --- 3. INTERFACE UTILISATEUR (La partie "Humaine") ---
 
 st.title("❄️ Presque la quille !")
-st.subheader("On prépare ton billet de sortie pour février ?")
+st.subheader("Check Out Session Janvier")
 
 with st.container():
-    st.write("### 📝 Un dernier petit effort...")
+    st.write("On  y est presque")
     
     # Prénom : Le point de départ
     prenom = st.text_input("C'est pour quel nom le ticket ?", placeholder="Ton petit nom ici...")
@@ -97,8 +97,7 @@ with st.container():
             "😫 Fatigué": {"t": "Mode Éco activé", "p": "Ordonnance : 3 jours de pyjama et interdiction de regarder les mails.", "c": "warning"},
             "😐 Ça va": {"t": "Survivant stable", "p": "Mouais, on y croit 🤨", "c": "info"},
             "😁 En forme": {"t": "Anomalie suspecte", "p": "Trop d'énergie pour un mois de Janvier. On surveille ça de près...", "c": "success"},
-            "🚀 Prêt à tout": {"t": "Veuillez redescendre", "p": "Calme-toi sur l'expresso, Elon."
-            "On est juste en janvier, pas sur Mars.", "c": "success"}
+            "🚀 Prêt à tout": {"t": "Veuillez redescendre", "p": "Calme-toi sur l'expresso, Elon. /n On est juste en janvier, pas sur Mars.", "c": "success"}
         }
         
         info = diags[batterie]
