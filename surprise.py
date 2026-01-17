@@ -80,7 +80,7 @@ st.markdown("""
 
 # --- 3. INTERFACE (Version Humanisée) ---
 
-st.title("❄️ Presque la quille !")
+st.title("❄️ Check-Out Session Janvier")
 st.subheader("On prépare ton billet de sortie pour février ?")
 
 # On utilise un container pour regrouper les infos de manière moins "grille"
@@ -115,20 +115,36 @@ with st.container():
         st.write("**🌴 Ton projet secret**")
         activite = st.selectbox(
             "Ta priorité absolue ?", 
-            ["Dormir 15h par jour 🐻", "Manger de la raclette 🧀", "Rien faire du tout 📺", "Aller voir la neige ⛷️", "Partir loin ✈️"]
+            ["Hibernation totale 🐻", "Raclette Party 🧀", "Marathon De Films 📺", "Aller skier ⛷️", "Fuite à l'étranger ✈️", "Apéro infini 🍻"]
         )
         
         transport = st.selectbox(
             "Tu t'en vas comment ?", 
-            ["En téléportation", "En dos de dragon", "En trottinette", "En tapis volant"]
+            ["Téléportation", "À la nage", "Dos de Dragon", "Trottinette Électrique", "Tapis Volant", "Uber Copter", "Sur un vélo volé"]
         )
+
+
+# Dictionnaire de réactions
+reactions = {
+    "💀 HS": {"msg": "Diagnostic : Mort clinique. Réanimation par perfusion de sieste conseillée", "color": "error"},
+    "😫 Fatigué": {"msg": "Ordonnance : 3 jours de pyjama et interdiction de regarder tes mails", "color": "warning"},
+    "😐 Ça va": {"msg": "État stable. Tu peux tenir encore 2h, après on ne garantit plus rien", "color": "info"},
+    "😁 En forme": {"msg": "Anomalie détectée : Trop d'énergie pour un mois de Janvier. On surveille ça", "color": "success"},
+    "🚀 Prêt à tout": {"msg": "On t'a reconnu, Elon Musk. Calme-toi sur les expresso, on est juste en janvier, pas sur Mars", "color": "success"}
+}
+
+# Affichage dynamique
+reponse = reactions.get(batterie)
+st.toast(reponse["msg"]) # Optionnel : un petit pop-up en bas à droite
+st.info(reponse["msg"]) # Le texte qui remplit le trou
+
 
 # On rend le bouton moins "industriel"
 st.write("---")
 bt_left, bt_center, bt_right = st.columns([1, 2, 1])
 with bt_center:
     # Changement du label pour quelque chose de plus excitant
-    bouton_clique = st.button("GÉNÉRER MON PASSEPORT LIBERTÉ ✨")
+    bouton_clique = st.button("Imprimer le boarding pass 🚀")
 
 
 # --- 4. LOGIQUE D'ACTIVATION ---
