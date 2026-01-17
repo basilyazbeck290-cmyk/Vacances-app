@@ -1,6 +1,7 @@
 import streamlit as st
 import time
 import base64
+import random
 
 # --- 1. FONCTIONS TECHNIQUES ---
 @st.cache_data
@@ -24,6 +25,27 @@ def jouer_musique_secure(fichier_audio):
 
 # --- 2. STYLE & DESIGN CUSTOM ---
 st.set_page_config(page_title="Mission : Libération", page_icon="❄️", layout="centered")
+
+import random
+
+flocons_html = ""
+for i in range(15):
+    left = random.randint(0, 100)
+    size = random.randint(12, 28)
+    duration = random.randint(8, 18)
+    delay = random.randint(0, 10)
+
+    flocons_html += f"""
+    <div class="snowflake"
+         style="
+            left:{left}%;
+            font-size:{size}px;
+            animation-duration:{duration}s;
+            animation-delay:{delay}s;">
+        ❄
+    </div>
+    """
+
 
 st.markdown("""
     <style>
