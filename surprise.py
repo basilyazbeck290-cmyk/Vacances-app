@@ -32,7 +32,7 @@ diags = {
     "😫 Fatigué": {"p": "Ordonnance : 3 jours de pyjama et interdiction de regarder les mails.", "c": "warning"},
     "😐 Ça va": {"p": "Mouais, on y croit 🤨", "c": "info"},
     "😁 En forme": {"p": "Trop d'énergie pour un mois de Janvier.\n\nOn surveille ça de près...", "c": "success"},
-    "🚀 Prêt à tout": {"Veuillez redescendre", "p": "Calme-toi sur l'expresso, Elon.\n\nOn est juste en janvier, pas sur Mars.", "c": "success"}
+    "🚀 Prêt à tout": {"p": "Calme-toi sur l'expresso, Elon.\n\nOn est juste en janvier, pas sur Mars.", "c": "success"}
 }
 
 # --- 4. STYLE & DESIGN ---
