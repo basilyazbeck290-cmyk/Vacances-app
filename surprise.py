@@ -21,70 +21,39 @@ def jouer_musique_secure(fichier_audio):
     else:
         st.toast("⚠️ Note : Layla.mp3 est absent, mais on continue en silence !", icon="🔇")
 
-# --- 2. STYLE & NEIGE (Version Améliorée) ---
+# --- 2. STYLE & DESIGN CUSTOM (La version qui ne s'affiche pas en texte) ---
 
-# On augmente le nombre de flocons pour un effet plus "Wow"
 flocons_html = ""
-for i in range(40):  # 40 flocons au lieu de 15
+for i in range(40):
     left = random.uniform(0, 100)
     size = random.randint(10, 25)
     duration = random.uniform(7, 15)
     delay = random.uniform(0, 10)
-    opacity = random.uniform(0.3, 0.8) # Opacité variable pour la profondeur
-    blur = random.randint(0, 2) # Un peu de flou sur certains
+    opacity = random.uniform(0.3, 0.8)
+    
+    flocons_html += f'<div class="snowflake" style="left:{left}%; font-size:{size}px; animation-duration:{duration}s; animation-delay:{delay}s; opacity:{opacity};">❄</div>'
 
-    flocons_html += f"""
-    <div class="snowflake"
-         style="
-            left:{left}%;
-            font-size:{size}px;
-            animation-duration:{duration}s;
-            animation-delay:{delay}s;
-            opacity:{opacity};
-            filter: blur({blur}px);">
-        ❄
-    </div>
-    """
-
+# C'EST ICI QUE LA MAGIE OPÈRE :
 st.markdown(f"""
 <style>
-/* FOND ET COULEURS */
+/* Fond de l'application */
 .stApp {{
     background-color: #0E1117;
 }}
 
-h1, h2, h3, p, label, .stMarkdown {{
+/* Forcer la couleur blanche pour tout le texte */
+h1, h2, h3, p, label, .stMarkdown, .stTextInput {{
     color: white !important;
 }}
 
-/* BOUTON DESIGN */
-.stButton>button {{
-    width: 100%;
-    height: 70px;
-    background: linear-gradient(90deg, #FF007F, #6600FF);
-    color: white !important;
-    font-size: 20px;
-    font-weight: bold;
-    border: none;
-    border-radius: 15px;
-    transition: 0.4s;
-    cursor: pointer;
-}}
-
-.stButton>button:hover {{
-    transform: scale(1.03);
-    box-shadow: 0px 0px 25px rgba(102, 0, 255, 0.8);
-    color: white !important;
-}}
-
-/* ❄️ LOGIQUE DES FLOCONS */
+/* Les flocons */
 .snowflake {{
     color: white;
     position: fixed;
     top: -10%;
-    z-index: 9999; /* Par-dessus tout */
+    z-index: 9999;
     user-select: none;
-    pointer-events: none; /* TRÈS IMPORTANT : permet de cliquer "à travers" les flocons */
+    pointer-events: none; /* Empêche les flocons de bloquer les clics */
     animation-name: fall, shake;
     animation-timing-function: linear, ease-in-out;
     animation-iteration-count: infinite, infinite;
@@ -97,7 +66,18 @@ h1, h2, h3, p, label, .stMarkdown {{
 
 @keyframes shake {{
     0%, 100% {{ transform: translateX(0); }}
-    50% {{ transform: translateX(50px) rotate(20deg); }}
+    50% {{ transform: translateX(50px); }}
+}}
+
+/* Bouton stylé */
+.stButton>button {{
+    width: 100%;
+    height: 70px;
+    background: linear-gradient(90deg, #FF007F, #6600FF);
+    color: white !important;
+    font-size: 20px;
+    border-radius: 15px;
+    border: none;
 }}
 </style>
 
