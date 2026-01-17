@@ -21,46 +21,35 @@ def jouer_musique_secure(fichier_audio):
     else:
         st.toast("⚠️ Note : Layla.mp3 est absent, mais on continue en silence !", icon="🔇")
 
-# --- 2. STYLE & DESIGN : LA TEMPÊTE IMMERSIVE ---
+# --- 2. STYLE & DESIGN : LA TEMPÊTE IMMERSIVE (CORRIGÉE) ---
 
-# On multiplie les types de flocons et on augmente le nombre
+# 1. On génère d'abord la liste des flocons dans une variable
 flocons_types = ['❄', '❅', '❆']
-flocons_html = ""
+divs_flocons = ""
 
-for i in range(100):  # On passe à 100 pour une vraie présence !
+for i in range(100): 
     left = random.uniform(0, 100)
-    size = random.randint(10, 35)      # Tailles variées
-    duration = random.uniform(5, 15)   # Vitesses variées
+    size = random.randint(10, 35)
+    duration = random.uniform(5, 15)
     delay = random.uniform(0, 10)
     opacity = random.uniform(0.2, 0.9)
     char = random.choice(flocons_types)
-    
-    # On ajoute un flou plus fort pour les gros flocons (effet de proximité)
     blur = "2px" if size > 25 else "0px"
     
-    flocons_html += f"""
-    <div class="snowflake" style="
-        left: {left}%;
-        font-size: {size}px;
-        animation-duration: {duration}s;
-        animation-delay: {delay}s;
-        opacity: {opacity};
-        filter: blur({blur});
-    ">{char}</div>
-    """
+    divs_flocons += f'<div class="snowflake" style="left:{left}%; font-size:{size}px; animation-duration:{duration}s; animation-delay:{delay}s; opacity:{opacity}; filter:blur({blur});">{char}</div>'
 
+# 2. ON ENVOIE TOUT D'UN COUP (Le CSS + les Divs)
+# Attention : bien vérifier que unsafe_allow_html=True est présent à la fin !
 st.markdown(f"""
 <style>
-/* FOND ET COULEURS GÉNÉRALES */
 .stApp {{
     background-color: #0E1117;
 }}
 
-h1, h2, h3, p, label, .stMarkdown, .stTextInput {{
+h1, h2, h3, p, label, .stMarkdown {{
     color: white !important;
 }}
 
-/* CONFIGURATION DE LA NEIGE */
 .snowflake {{
     color: #ffffff;
     position: fixed;
@@ -71,7 +60,6 @@ h1, h2, h3, p, label, .stMarkdown, .stTextInput {{
     animation-name: fall, shake;
     animation-timing-function: linear, ease-in-out;
     animation-iteration-count: infinite, infinite;
-    text-shadow: 0 0 5px rgba(255,255,255,0.3); /* Petit halo brillant */
 }}
 
 @keyframes fall {{
@@ -81,11 +69,9 @@ h1, h2, h3, p, label, .stMarkdown, .stTextInput {{
 
 @keyframes shake {{
     0%, 100% {{ transform: translateX(0) rotate(0deg); }}
-    33% {{ transform: translateX(30px) rotate(20deg); }}
-    66% {{ transform: translateX(-30px) rotate(-20deg); }}
+    50% {{ transform: translateX(30px) rotate(20deg); }}
 }}
 
-/* BOUTON ULTRA-STYLÉ AVEC GLOW */
 .stButton>button {{
     width: 100%;
     height: 70px;
@@ -93,27 +79,14 @@ h1, h2, h3, p, label, .stMarkdown, .stTextInput {{
     color: white !important;
     font-size: 22px;
     font-weight: bold;
-    border: none;
     border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(102, 0, 255, 0.4);
-    transition: 0.3s;
-}}
-
-.stButton>button:hover {{
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(102, 0, 255, 0.6);
-}}
-
-/* Champs de saisie plus sombres et élégants */
-.stTextInput > div > div > input, .stSelectbox > div > div {{
-    background-color: #1e2129 !important;
-    border: 1px solid #3d4455 !important;
-    color: white !important;
+    border: none;
 }}
 </style>
 
-{flocons_html}
+{divs_flocons}
 """, unsafe_allow_html=True)
+
 
 # --- 3. INTERFACE UTILISATEUR ---
 
