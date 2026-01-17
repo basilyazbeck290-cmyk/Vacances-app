@@ -3,23 +3,7 @@ import time
 import base64
 import random
 
-# --- 1. CONFIGURATION & ÉTAT ---
-
-# Fonction pour générer la neige proprement
-def generer_neige(nb_flocons=20):
-    flocons_html = ""
-    for _ in range(nb_flocons):
-        left = random.randint(0, 100)
-        delay = random.randint(0, 5)
-        duration = random.randint(5, 15)
-        size = random.randint(10, 25)
-        flocons_html += f'<div class="snowflake" style="left:{left}%; animation-delay:{delay}s; duration:{duration}s; font-size:{size}px;">❄️</div>'
-    return flocons_html
-
-if 'neige_html' not in st.session_state:
-    st.session_state.neige_html = generer_neige()
-
-# --- 2. FONCTIONS TECHNIQUES ---
+# --- 1. FONCTIONS TECHNIQUES ---
 @st.cache_data
 def get_audio_base64(fichier_audio):
     try:
@@ -35,39 +19,40 @@ def jouer_musique_secure(fichier_audio):
         md = f"""<audio autoplay><source src="data:audio/mp3;base64,{b64}" type="audio/mp3"></audio>"""
         st.markdown(md, unsafe_allow_html=True)
     else:
-        st.toast("⚠️ Note : Layla.mp3 absent", icon="🔇")
+        st.toast("⚠️ Note : Layla.mp3 est absent, mais on continue en silence !", icon="🔇")
 
-# --- 3. DICTIONNAIRE DE DONNÉES ---
-diags = {
-    "💀 HS": {"p": "Diagnostic : Mort clinique.\n\nRéanimation par perfusion de sieste conseillée.", "c": "error"},
-    "😫 Fatigué": {"p": "Ordonnance : 3 jours de pyjama et interdiction de regarder les mails.", "c": "warning"},
-    "😐 Ça va": {"p": "Mouais, on y croit 🤨 On sent que le café fait effet.", "c": "info"},
-    "😁 En forme": {"p": "Trop d'énergie pour un mois de Janvier.\n\nOn surveille ça de près...", "c": "success"},
-    "🚀 Prêt à tout": {"p": "Calme-toi sur l'expresso, Elon.\n\nOn est juste en janvier, pas sur Mars.", "c": "success"}
-}
+# --- 2. STYLE & DESIGN : LA TEMPÊTE IMMERSIVE (STABILISÉE) ---
 
-# --- 4. STYLE & DESIGN (AMÉLIORÉ) ---
+# On vérifie si les flocons sont déjà dans la "mémoire" de la session
+if 'neige_html' not in st.session_state:
+    flocons_types = ['❄', '❅', '❆']
+    divs_flocons = ""
+
+    for i in range(100): 
+        left = random.uniform(0, 100)
+        size = random.randint(10, 35)
+        duration = random.uniform(5, 15)
+        delay = random.uniform(0, 10)
+        opacity = random.uniform(0.2, 0.9)
+        char = random.choice(flocons_types)
+        blur = "2px" if size > 25 else "0px"
+        
+        divs_flocons += f'<div class="snowflake" style="left:{left}%; font-size:{size}px; animation-duration:{duration}s; animation-delay:{delay}s; opacity:{opacity}; filter:blur({blur});">{char}</div>'
+    
+    # On stocke le HTML généré pour ne plus y toucher
+    st.session_state.neige_html = divs_flocons
+
+# Injection du CSS et du HTML mémorisé
 st.markdown(f"""
 <style>
-.stApp {{ background-color: #0E1117; }}
-h1, h2, h3, p, label, .stMarkdown {{ color: white !important; }}
-
-/* LE FIX POUR LE SAUT D'ÉCRAN : min-height */
-.diag-card {{
-    padding: 20px;
-    border-radius: 12px;
-    margin-top: 15px;
-    border-left: 5px solid;
-    background-color: rgba(255, 255, 255, 0.05);
-    min-height: 140px; /* Réserve l'espace pour éviter que le bas saute */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    transition: all 0.4s ease;
-    animation: fadeIn 0.5s ease-out;
+.stApp {{
+    background-color: #0E1117;
 }}
 
-/* Animation des flocons */
+h1, h2, h3, p, label, .stMarkdown {{
+    color: white !important;
+}}
+
 .snowflake {{
     color: #ffffff;
     position: fixed;
@@ -75,20 +60,33 @@ h1, h2, h3, p, label, .stMarkdown {{ color: white !important; }}
     z-index: 9999;
     user-select: none;
     pointer-events: none;
-    animation: fall linear infinite, shake ease-in-out infinite;
+    animation-name: fall, shake;
+    animation-timing-function: linear, ease-in-out;
+    animation-iteration-count: infinite, infinite;
 }}
 
-@keyframes fall {{ 
-    0% {{ top: -10%; }} 
-    100% {{ top: 110%; }} 
+.diag-card {
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 10px;
+    border-left: 5px solid;
+    background-color: rgba(255, 255, 255, 0.05);
+    animation: fadeIn 0.4s ease-out; /* Effet de fondu doux */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fall {{
+    0% {{ top: -10%; }}
+    100% {{ top: 110%; }}
 }}
-@keyframes shake {{ 
-    0%, 100% {{ transform: translateX(0); }} 
-    50% {{ transform: translateX(20px); }} 
-}}
-@keyframes fadeIn {{ 
-    from {{ opacity: 0; transform: translateY(5px); }} 
-    to {{ opacity: 1; transform: translateY(0); }} 
+
+@keyframes shake {{
+    0%, 100% {{ transform: translateX(0) rotate(0deg); }}
+    50% {{ transform: translateX(30px) rotate(20deg); }}
 }}
 
 .stButton>button {{
@@ -100,84 +98,116 @@ h1, h2, h3, p, label, .stMarkdown {{ color: white !important; }}
     font-weight: bold;
     border-radius: 15px;
     border: none;
-    transition: transform 0.2s;
 }}
-.stButton>button:hover {{ transform: scale(1.02); }}
+
 </style>
+
 {st.session_state.neige_html}
 """, unsafe_allow_html=True)
 
-# --- 5. INTERFACE UTILISATEUR ---
+
+# --- 3. INTERFACE UTILISATEUR ---
+
 st.title("❄️ Presque la quille !")
 st.subheader("Check Out : Session Janvier")
 
-prenom = st.text_input("C'est pour quel nom le ticket ?", placeholder="Ton petit nom ici...")
-
-st.divider()
-
-col1, col2 = st.columns([1, 1], gap="large")
-
-with col1:
-    st.write("**🪫 Ton niveau d'énergie**")
-    batterie = st.select_slider(
-        "Alors, comment tu te sens ?", 
-        options=list(diags.keys()),
-        value="😫 Fatigué"
-    )
+with st.container():
+    prenom = st.text_input("C'est pour quel nom le ticket ?", placeholder="Ton petit nom ici...")
     
-    info = diags[batterie]
-    couleurs_douces = {"error": "#FF6B6B", "warning": "#FFD93D", "info": "#6BCBFF", "success": "#6BFFB8"}
-    color = couleurs_douces.get(info['c'], "#FFFFFF")
+    if prenom:
+        st.write(f"Parfait **{prenom}**, on s'occupe de ton exfiltration ✨")
 
-    # Utilisation d'un container vide pour rafraîchir proprement la carte
-    card_placeholder = st.empty()
-    card_placeholder.markdown(f"""
-        <div class="diag-card" style="border-color: {color};">
-            <p style="color: {color} !important; font-weight: bold; margin-bottom: 5px; opacity: 0.8; font-size: 0.9em;">RAPPORT D'ANALYSE</p>
-            <p style="color: white !important; margin: 0; font-size: 1.1em; line-height: 1.4;">{info['p']}</p>
-        </div>
-    """, unsafe_allow_html=True)
+    st.divider()
 
-with col2:
-    st.write("**🌴 Ton projet secret**")
-    activite = st.selectbox("Ta priorité absolue ?", ["Hibernation totale 🐻", "Raclette Party 🧀", "Marathon De Films 📺", "Aller skier ⛷️", "Fuite à l'étranger ✈️", "Apéro infini 🍻"])
-    transport = st.selectbox("Tu t'en vas comment ?", ["Téléportation", "À la nage", "Dos de Dragon", "Trottinette Électrique", "Tapis Volant", "Uber Copter"])
+    col1, col2 = st.columns([1, 1], gap="large")
+
+    with col1:
+        st.write("**🪫 Ton niveau d'énergie**")
+        batterie = st.select_slider(
+            "Alors, comment tu te sens ?", 
+            options=["💀 HS", "😫 Fatigué", "😐 Ça va", "😁 En forme", "🚀 Prêt à tout"],
+            value="😫 Fatigué"
+        )
+        
+        diags = {
+            "💀 HS": {"t": "Alerte : Zombie détecté", "p": "Diagnostic : Mort clinique.\n\nRéanimation par perfusion de sieste conseillée.", "c": "error"},
+            "😫 Fatigué": {"t": "Mode Éco activé", "p": "Ordonnance : 3 jours de pyjama et interdiction de regarder les mails.", "c": "warning"},
+            "😐 Ça va": {"t": "Survivant stable", "p": "Mouais, on y croit 🤨", "c": "info"},
+            "😁 En forme": {"t": "Anomalie suspecte", "p": "Trop d'énergie pour un mois de Janvier.\n\nOn surveille ça de près...", "c": "success"},
+            "🚀 Prêt à tout": {"t": "Veuillez redescendre", "p": "Calme-toi sur l'expresso, Elon.\n\nOn est juste en janvier, pas sur Mars.", "c": "success"}
+        }
+        
+# --- Nouveau système de Diagnostic Fluide ---
+info = diags[batterie]
+st.write(f"**{info['t']}**")
+
+# Mapping des couleurs pour le style personnalisé
+couleurs_douces = {
+    "error": "#FF4B4B",   # Rouge doux
+    "warning": "#FFA421", # Orange
+    "info": "#00C0F2",    # Bleu
+    "success": "#00D488"  # Vert
+}
+color = couleurs_douces.get(info['c'], "#FFFFFF")
+
+# Affichage avec le style CSS 'diag-card'
+st.markdown(f"""
+    <div class="diag-card" style="border-color: {color};">
+        <p style="color: {color} !important; font-weight: bold; margin-bottom: 5px;">Rapport :</p>
+        <p style="color: white !important; margin: 0;">{info['p']}</p>
+    </div>
+""", unsafe_allow_html=True)
+
+    with col2:
+        st.write("**🌴 Ton projet secret**")
+        activite = st.selectbox(
+            "Ta priorité absolue ?", 
+            ["Hibernation totale 🐻", "Raclette Party 🧀", "Marathon De Films 📺", "Aller skier ⛷️", "Fuite à l'étranger ✈️", "Apéro infini 🍻"]
+        )
+        
+        transport = st.selectbox(
+            "Tu t'en vas comment ?", 
+            ["Téléportation", "À la nage", "Dos de Dragon", "Trottinette Électrique", "Tapis Volant", "Uber Copter"]
+        )
 
 st.write("---")
 bt_left, bt_center, bt_right = st.columns([1, 2, 1])
 with bt_center:
     bouton_clique = st.button("IMPRIMER LE BOARDING PASS 🚀")
 
-# --- 6. LOGIQUE D'ACTIVATION ---
+# --- 4. LOGIQUE D'ACTIVATION ---
 if bouton_clique:
     if not prenom:
         st.warning("⚠️ Donne-moi ton prénom d'abord !")
     else:
         jouer_musique_secure("Layla.mp3") 
+
         barre = st.progress(0, text="Calcul de la trajectoire vers la liberté...")
         for i in range(100):
             time.sleep(0.01) 
             barre.progress(i + 1)
+        time.sleep(0.2)
         barre.empty()
         
         st.balloons()
         
         couleur_choisie = "#00FFFF"
         html_ticket = f"""
-        <div style="font-family: Arial; border: 3px dashed {couleur_choisie}; background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%); padding: 30px; border-radius: 15px; text-align: center; box-shadow: 0 0 25px {couleur_choisie}50;">
+        <div style="font-family: Arial; border: 3px dashed {couleur_choisie}; background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%); padding: 30px; border-radius: 15px; text-align: center; box-shadow: 0 0 25px {couleur_choisie}50; animation: slideUp 0.8s ease-out;">
             <div style="background-color: {couleur_choisie}; color: black; font-weight: bold; padding: 5px 15px; display: inline-block; border-radius: 20px; margin-bottom: 20px; text-transform: uppercase; font-size: 14px;">Session Janvier Terminée</div>
             <h1 style="color: white; margin: 0; font-size: 40px; text-transform: uppercase; letter-spacing: 3px; text-shadow: 2px 2px 0px {couleur_choisie};">PASS LIBERTÉ</h1>
             <p style="color: #cccccc; font-style: italic;">Valable exclusivement pour :</p>
             <h2 style="color: white; font-size: 50px; margin: 10px 0;">{prenom}</h2>
             <div style="border-top: 1px solid #555; margin: 20px 0;"></div>
             <div style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 10px;">
-                <div><p style="color: {couleur_choisie}; font-size: 10px; margin:0;">ÉNERGIE</p><p style="color: white; font-weight: bold; font-size:14px;">{batterie}</p></div>
+                <div><p style="color: {couleur_choisie}; font-size: 12px; margin:0;">ÉNERGIE</p><p style="color: white; font-weight: bold;">{batterie}</p></div>
                 <div style="font-size: 25px;">✈️</div>
-                <div><p style="color: {couleur_choisie}; font-size: 10px; margin:0;">DESTINATION</p><p style="color: white; font-weight: bold; font-size:14px;">{activite}</p></div>
+                <div><p style="color: {couleur_choisie}; font-size: 12px; margin:0;">DESTINATION</p><p style="color: white; font-weight: bold;">{activite}</p></div>
                 <div style="font-size: 25px;">🚀</div>
-                <div><p style="color: {couleur_choisie}; font-size: 10px; margin:0;">TRANSPORT</p><p style="color: white; font-weight: bold; font-size:14px;">{transport}</p></div>
+                <div><p style="color: {couleur_choisie}; font-size: 12px; margin:0;">TRANSPORT</p><p style="color: white; font-weight: bold;">{transport}</p></div>
             </div>
-            <div style="margin-top: 30px; font-size: 11px; color: #777;">Validité : Jusqu'à ce que le réveil sonne.</div>
+            <div style="margin-top: 30px; font-size: 12px; color: #777;">Ce document certifie que le cerveau de l'utilisateur est officiellement en veille<br>Validité : Jusqu'à la reprise (désolé)</div>
         </div>
+        <style> @keyframes slideUp {{ from {{ transform: translateY(50px); opacity: 0; }} to {{ transform: translateY(0); opacity: 1; }} }} </style>
         """
         st.markdown(html_ticket, unsafe_allow_html=True)
