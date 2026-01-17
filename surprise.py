@@ -26,7 +26,6 @@ def jouer_musique_secure(fichier_audio):
 # --- 2. STYLE & DESIGN CUSTOM ---
 st.set_page_config(page_title="Mission : Libération", page_icon="❄️", layout="centered")
 
-import random
 
 flocons_html = ""
 for i in range(15):
@@ -73,19 +72,36 @@ st.markdown("""
         box-shadow: 0px 0px 25px rgba(102, 0, 255, 0.6);
     }
 
-    /* ANIMATION NEIGE */
-    .snowflake {
-        color: #fff; font-size: 1.5em; position: fixed; top: -10%; z-index: 9999;
-        user-select: none; pointer-events: none;
-        animation: fall 10s linear infinite, shake 3s ease-in-out infinite;
-    }
-    @keyframes fall { 0% { top: -10%; } 100% { top: 100%; } }
-    @keyframes shake { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(80px); } }
+    st.markdown(f"""
+    <style>
+    
+    /* ANIMATION NEIGE AMÉLIORÉE */
+    .snowflake {{
+        color: white;
+        position: fixed;
+        top: -10%;
+        z-index: 9999;
+        user-select: none;
+        pointer-events: none;
+        animation-name: fall, shake;
+        animation-timing-function: linear, ease-in-out;
+        animation-iteration-count: infinite, infinite;
+    }}
+    
+    @keyframes fall {{
+        to {{ top: 110%; }}
+    }}
+    
+    @keyframes shake {{
+        0%, 100% {{ transform: translateX(0); }}
+        50% {{ transform: translateX(60px); }}
+    }}
+    
     </style>
-    <div class="snowflake">❅</div><div class="snowflake" style="left:20%">❆</div>
-    <div class="snowflake" style="left:40%">❄</div><div class="snowflake" style="left:60%">❅</div>
-    <div class="snowflake" style="left:80%">❆</div>
-""", unsafe_allow_html=True)
+    
+    {flocons_html}
+    """, unsafe_allow_html=True)
+
 
 # --- 3. INTERFACE UTILISATEUR (La partie "Humaine") ---
 
