@@ -21,25 +21,28 @@ def jouer_musique_secure(fichier_audio):
     else:
         st.toast("⚠️ Note : Layla.mp3 est absent, mais on continue en silence !", icon="🔇")
 
-# --- 2. STYLE & DESIGN : LA TEMPÊTE IMMERSIVE (CORRIGÉE) ---
+# --- 2. STYLE & DESIGN : LA TEMPÊTE IMMERSIVE (STABILISÉE) ---
 
-# 1. On génère d'abord la liste des flocons dans une variable
-flocons_types = ['❄', '❅', '❆']
-divs_flocons = ""
+# On vérifie si les flocons sont déjà dans la "mémoire" de la session
+if 'neige_html' not in st.session_state:
+    flocons_types = ['❄', '❅', '❆']
+    divs_flocons = ""
 
-for i in range(100): 
-    left = random.uniform(0, 100)
-    size = random.randint(10, 35)
-    duration = random.uniform(5, 15)
-    delay = random.uniform(0, 10)
-    opacity = random.uniform(0.2, 0.9)
-    char = random.choice(flocons_types)
-    blur = "2px" if size > 25 else "0px"
+    for i in range(100): 
+        left = random.uniform(0, 100)
+        size = random.randint(10, 35)
+        duration = random.uniform(5, 15)
+        delay = random.uniform(0, 10)
+        opacity = random.uniform(0.2, 0.9)
+        char = random.choice(flocons_types)
+        blur = "2px" if size > 25 else "0px"
+        
+        divs_flocons += f'<div class="snowflake" style="left:{left}%; font-size:{size}px; animation-duration:{duration}s; animation-delay:{delay}s; opacity:{opacity}; filter:blur({blur});">{char}</div>'
     
-    divs_flocons += f'<div class="snowflake" style="left:{left}%; font-size:{size}px; animation-duration:{duration}s; animation-delay:{delay}s; opacity:{opacity}; filter:blur({blur});">{char}</div>'
+    # On stocke le HTML généré pour ne plus y toucher
+    st.session_state.neige_html = divs_flocons
 
-# 2. ON ENVOIE TOUT D'UN COUP (Le CSS + les Divs)
-# Attention : bien vérifier que unsafe_allow_html=True est présent à la fin !
+# Injection du CSS et du HTML mémorisé
 st.markdown(f"""
 <style>
 .stApp {{
@@ -84,7 +87,7 @@ h1, h2, h3, p, label, .stMarkdown {{
 }}
 </style>
 
-{divs_flocons}
+{st.session_state.neige_html}
 """, unsafe_allow_html=True)
 
 
