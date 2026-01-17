@@ -3,7 +3,12 @@ import time
 import base64
 import random
 
-# --- 1. FONCTIONS TECHNIQUES ---
+# --- 1. CONFIGURATION & ÉTAT (Nouveau) ---
+if 'neige_html' not in st.session_state:
+    # On initialise la neige si elle n'existe pas
+    st.session_state.neige_html = ""
+
+# --- 2. FONCTIONS TECHNIQUES ---
 @st.cache_data
 def get_audio_base64(fichier_audio):
     try:
@@ -21,9 +26,16 @@ def jouer_musique_secure(fichier_audio):
     else:
         st.toast("⚠️ Note : Layla.mp3 est absent, mais on continue en silence !", icon="🔇")
 
-# --- 2. STYLE & DESIGN (CORRIGÉ & ADOUCI) ---
+# --- 3. DICTIONNAIRE DE DONNÉES (Placé avant l'usage) ---
+diags = {
+    "💀 HS": {"t": "Alerte : Zombie détecté", "p": "Diagnostic : Mort clinique.\n\nRéanimation par perfusion de sieste conseillée.", "c": "error"},
+    "😫 Fatigué": {"t": "Mode Éco activé", "p": "Ordonnance : 3 jours de pyjama et interdiction de regarder les mails.", "c": "warning"},
+    "😐 Ça va": {"t": "Survivant stable", "p": "Mouais, on y croit 🤨", "c": "info"},
+    "😁 En forme": {"t": "Anomalie suspecte", "p": "Trop d'énergie pour un mois de Janvier.\n\nOn surveille ça de près...", "c": "success"},
+    "🚀 Prêt à tout": {"t": "Veuillez redescendre", "p": "Calme-toi sur l'expresso, Elon.\n\nOn est juste en janvier, pas sur Mars.", "c": "success"}
+}
 
-# Injection du CSS avec les accolades doublées pour les animations
+# --- 4. STYLE & DESIGN ---
 st.markdown(f"""
 <style>
 .stApp {{
@@ -34,42 +46,19 @@ h1, h2, h3, p, label, .stMarkdown {{
     color: white !important;
 }}
 
-.snowflake {{
-    color: #ffffff;
-    position: fixed;
-    top: -10%;
-    z-index: 9999;
-    user-select: none;
-    pointer-events: none;
-    animation-name: fall, shake;
-    animation-timing-function: linear, ease-in-out;
-    animation-iteration-count: infinite, infinite;
-}}
-
-/* LE FIX EST ICI : On double les {{ }} pour le CSS */
 .diag-card {{
     padding: 15px;
     border-radius: 12px;
     margin-top: 15px;
     border-left: 5px solid;
     background-color: rgba(255, 255, 255, 0.03);
-    transition: all 0.5s ease-in-out; /* Transition douce pour le changement de couleur */
+    transition: all 0.5s ease-in-out;
     animation: fadeIn 0.6s ease-out;
 }}
 
 @keyframes fadeIn {{
     from {{ opacity: 0; transform: translateY(10px); }}
     to {{ opacity: 1; transform: translateY(0); }}
-}}
-
-@keyframes fall {{
-    0% {{ top: -10%; }}
-    100% {{ top: 110%; }}
-}}
-
-@keyframes shake {{
-    0%, 100% {{ transform: translateX(0) rotate(0deg); }}
-    50% {{ transform: translateX(30px) rotate(20deg); }}
 }}
 
 .stButton>button {{
@@ -83,87 +72,66 @@ h1, h2, h3, p, label, .stMarkdown {{
     border: none;
 }}
 </style>
-
 {st.session_state.neige_html}
 """, unsafe_allow_html=True)
 
-# --- 3. INTERFACE UTILISATEUR ---
-
+# --- 5. INTERFACE UTILISATEUR ---
 st.title("❄️ Presque la quille !")
 st.subheader("Check Out : Session Janvier")
 
-with st.container():
-    prenom = st.text_input("C'est pour quel nom le ticket ?", placeholder="Ton petit nom ici...")
-    
-    if prenom:
-        st.write(f"Parfait **{prenom}**, on s'occupe de ton exfiltration ✨")
+prenom = st.text_input("C'est pour quel nom le ticket ?", placeholder="Ton petit nom ici...")
 
-    st.divider()
+if prenom:
+    st.write(f"Parfait **{prenom}**, on s'occupe de ton exfiltration ✨")
 
-    col1, col2 = st.columns([1, 1], gap="large")
+st.divider()
+
+col1, col2 = st.columns([1, 1], gap="large")
 
 with col1:
-        st.write("**🪫 Ton niveau d'énergie**")
-        batterie = st.select_slider(
-            "Alors, comment tu te sens ?", 
-            options=["💀 HS", "😫 Fatigué", "😐 Ça va", "😁 En forme", "🚀 Prêt à tout"],
-            value="😫 Fatigué"
-        )
-        
-        info = diags[batterie]
-        st.write(f"**{info['t']}**")
-
-        # Couleurs plus pastel/douces pour ne pas agresser l'œil
-        couleurs_douces = {
-            "error": "#FF6B6B",
-            "warning": "#FFD93D",
-            "info": "#6BCBFF",
-            "success": "#6BFFB8"
-        }
-        color = couleurs_douces.get(info['c'], "#FFFFFF")
-
-        st.markdown(f"""
-            <div class="diag-card" style="border-color: {color};">
-                <p style="color: {color} !important; font-weight: bold; margin-bottom: 5px; opacity: 0.8;">RAPPORT D'ANALYSE</p>
-                <p style="color: white !important; margin: 0; font-size: 1.1em;">{info['p']}</p>
-            </div>
-        """, unsafe_allow_html=True)
-        
-        diags = {
-            "💀 HS": {"t": "Alerte : Zombie détecté", "p": "Diagnostic : Mort clinique.\n\nRéanimation par perfusion de sieste conseillée.", "c": "error"},
-            "😫 Fatigué": {"t": "Mode Éco activé", "p": "Ordonnance : 3 jours de pyjama et interdiction de regarder les mails.", "c": "warning"},
-            "😐 Ça va": {"t": "Survivant stable", "p": "Mouais, on y croit 🤨", "c": "info"},
-            "😁 En forme": {"t": "Anomalie suspecte", "p": "Trop d'énergie pour un mois de Janvier.\n\nOn surveille ça de près...", "c": "success"},
-            "🚀 Prêt à tout": {"t": "Veuillez redescendre", "p": "Calme-toi sur l'expresso, Elon.\n\nOn est juste en janvier, pas sur Mars.", "c": "success"}
-        }
+    st.write("**🪫 Ton niveau d'énergie**")
+    batterie = st.select_slider(
+        "Alors, comment tu te sens ?", 
+        options=list(diags.keys()),
+        value="😫 Fatigué"
+    )
     
+    info = diags[batterie]
+    st.write(f"**{info['t']}**")
 
-# Affichage avec le style CSS 'diag-card'
-st.markdown(f"""
-    <div class="diag-card" style="border-color: {color};">
-        <p style="color: {color} !important; font-weight: bold; margin-bottom: 5px;">Rapport :</p>
-        <p style="color: white !important; margin: 0;">{info['p']}</p>
-    </div>
-""", unsafe_allow_html=True)
+    couleurs_douces = {
+        "error": "#FF6B6B",
+        "warning": "#FFD93D",
+        "info": "#6BCBFF",
+        "success": "#6BFFB8"
+    }
+    color = couleurs_douces.get(info['c'], "#FFFFFF")
 
-    with col2:
-        st.write("**🌴 Ton projet secret**")
-        activite = st.selectbox(
-            "Ta priorité absolue ?", 
-            ["Hibernation totale 🐻", "Raclette Party 🧀", "Marathon De Films 📺", "Aller skier ⛷️", "Fuite à l'étranger ✈️", "Apéro infini 🍻"]
-        )
-        
-        transport = st.selectbox(
-            "Tu t'en vas comment ?", 
-            ["Téléportation", "À la nage", "Dos de Dragon", "Trottinette Électrique", "Tapis Volant", "Uber Copter"]
-        )
+    st.markdown(f"""
+        <div class="diag-card" style="border-color: {color};">
+            <p style="color: {color} !important; font-weight: bold; margin-bottom: 5px; opacity: 0.8;">RAPPORT D'ANALYSE</p>
+            <p style="color: white !important; margin: 0; font-size: 1.1em;">{info['p']}</p>
+        </div>
+    """, unsafe_allow_html=True)
+
+with col2:
+    st.write("**🌴 Ton projet secret**")
+    activite = st.selectbox(
+        "Ta priorité absolue ?", 
+        ["Hibernation totale 🐻", "Raclette Party 🧀", "Marathon De Films 📺", "Aller skier ⛷️", "Fuite à l'étranger ✈️", "Apéro infini 🍻"]
+    )
+    
+    transport = st.selectbox(
+        "Tu t'en vas comment ?", 
+        ["Téléportation", "À la nage", "Dos de Dragon", "Trottinette Électrique", "Tapis Volant", "Uber Copter"]
+    )
 
 st.write("---")
 bt_left, bt_center, bt_right = st.columns([1, 2, 1])
 with bt_center:
     bouton_clique = st.button("IMPRIMER LE BOARDING PASS 🚀")
 
-# --- 4. LOGIQUE D'ACTIVATION ---
+# --- 6. LOGIQUE D'ACTIVATION ---
 if bouton_clique:
     if not prenom:
         st.warning("⚠️ Donne-moi ton prénom d'abord !")
