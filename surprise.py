@@ -3,9 +3,8 @@ import time
 import base64
 import random
 
-# --- 1. CONFIGURATION & ÉTAT (Nouveau) ---
+# --- 1. CONFIGURATION & ÉTAT ---
 if 'neige_html' not in st.session_state:
-    # On initialise la neige si elle n'existe pas
     st.session_state.neige_html = ""
 
 # --- 2. FONCTIONS TECHNIQUES ---
@@ -26,7 +25,7 @@ def jouer_musique_secure(fichier_audio):
     else:
         st.toast("⚠️ Note : Layla.mp3 est absent, mais on continue en silence !", icon="🔇")
 
-# --- 3. DICTIONNAIRE DE DONNÉES (Placé avant l'usage) ---
+# --- 3. DICTIONNAIRE DE DONNÉES ---
 diags = {
     "💀 HS": {"p": "Diagnostic : Mort clinique.\n\nRéanimation par perfusion de sieste conseillée.", "c": "error"},
     "😫 Fatigué": {"p": "Ordonnance : 3 jours de pyjama et interdiction de regarder les mails.", "c": "warning"},
@@ -35,7 +34,7 @@ diags = {
     "🚀 Prêt à tout": {"p": "Calme-toi sur l'expresso, Elon.\n\nOn est juste en janvier, pas sur Mars.", "c": "success"}
 }
 
-# --- 4. STYLE & DESIGN ---
+# --- 4. STYLE & DESIGN AMÉLIORÉ ---
 st.markdown(f"""
 <style>
 .stApp {{
@@ -46,19 +45,18 @@ h1, h2, h3, p, label, .stMarkdown {{
     color: white !important;
 }}
 
+/* FIX : min-height pour éviter que le texte ne fasse sauter le reste du layout */
 .diag-card {{
-    padding: 15px;
+    padding: 20px;
     border-radius: 12px;
     margin-top: 15px;
     border-left: 5px solid;
     background-color: rgba(255, 255, 255, 0.03);
-    transition: all 0.5s ease-in-out;
-    animation: fadeIn 0.6s ease-out;
-}}
-
-@keyframes fadeIn {{
-    from {{ opacity: 0; transform: translateY(10px); }}
-    to {{ opacity: 1; transform: translateY(0); }}
+    min-height: 140px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: all 0.4s ease-in-out;
 }}
 
 .stButton>button {{
@@ -70,7 +68,13 @@ h1, h2, h3, p, label, .stMarkdown {{
     font-weight: bold;
     border-radius: 15px;
     border: none;
+    transition: transform 0.2s;
 }}
+
+.stButton>button:hover {{
+    transform: scale(1.02);
+}}
+
 </style>
 {st.session_state.neige_html}
 """, unsafe_allow_html=True)
@@ -97,19 +101,13 @@ with col1:
     )
     
     info = diags[batterie]
-
-    couleurs_douces = {
-        "error": "#FF6B6B",
-        "warning": "#FFD93D",
-        "info": "#6BCBFF",
-        "success": "#6BFFB8"
-    }
+    couleurs_douces = {"error": "#FF6B6B", "warning": "#FFD93D", "info": "#6BCBFF", "success": "#6BFFB8"}
     color = couleurs_douces.get(info['c'], "#FFFFFF")
 
     st.markdown(f"""
         <div class="diag-card" style="border-color: {color};">
-            <p style="color: {color} !important; font-weight: bold; margin-bottom: 5px; opacity: 0.8;">RAPPORT D'ANALYSE</p>
-            <p style="color: white !important; margin: 0; font-size: 1.1em;">{info['p']}</p>
+            <p style="color: {color} !important; font-weight: bold; margin-bottom: 5px; opacity: 0.8; font-size: 0.9em;">RAPPORT D'ANALYSE</p>
+            <p style="color: white !important; margin: 0; font-size: 1.1em; line-height: 1.4;">{info['p']}</p>
         </div>
     """, unsafe_allow_html=True)
 
@@ -147,8 +145,9 @@ if bouton_clique:
         st.balloons()
         
         couleur_choisie = "#00FFFF"
+        # Ajout d'un ID "ticket-final" pour le scroll
         html_ticket = f"""
-        <div style="font-family: Arial; border: 3px dashed {couleur_choisie}; background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%); padding: 30px; border-radius: 15px; text-align: center; box-shadow: 0 0 25px {couleur_choisie}50; animation: slideUp 0.8s ease-out;">
+        <div id="ticket-final" style="font-family: Arial; border: 3px dashed {couleur_choisie}; background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%); padding: 30px; border-radius: 15px; text-align: center; box-shadow: 0 0 25px {couleur_choisie}50; animation: slideUp 0.8s ease-out; margin-top: 20px;">
             <div style="background-color: {couleur_choisie}; color: black; font-weight: bold; padding: 5px 15px; display: inline-block; border-radius: 20px; margin-bottom: 20px; text-transform: uppercase; font-size: 14px;">Session Janvier Terminée</div>
             <h1 style="color: white; margin: 0; font-size: 40px; text-transform: uppercase; letter-spacing: 3px; text-shadow: 2px 2px 0px {couleur_choisie};">PASS LIBERTÉ</h1>
             <p style="color: #cccccc; font-style: italic;">Valable exclusivement pour :</p>
@@ -163,6 +162,14 @@ if bouton_clique:
             </div>
             <div style="margin-top: 30px; font-size: 12px; color: #777;">Ce document certifie que le cerveau de l'utilisateur est officiellement en veille<br>Validité : Jusqu'à la reprise (désolé)</div>
         </div>
+
+        <script>
+            var element = window.parent.document.getElementById("ticket-final");
+            if (element) {{
+                element.scrollIntoView({{behavior: "smooth", block: "end", inline: "nearest"}});
+            }}
+        </script>
+
         <style> @keyframes slideUp {{ from {{ transform: translateY(50px); opacity: 0; }} to {{ transform: translateY(0); opacity: 1; }} }} </style>
         """
         st.markdown(html_ticket, unsafe_allow_html=True)
