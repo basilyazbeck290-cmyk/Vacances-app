@@ -1,7 +1,6 @@
 import streamlit as st
 import time
 import base64
-import random
 
 # --- 1. FONCTIONS TECHNIQUES ---
 @st.cache_data
@@ -25,48 +24,6 @@ def jouer_musique_secure(fichier_audio):
 
 # --- 2. STYLE & DESIGN CUSTOM ---
 st.set_page_config(page_title="Mission : Libération", page_icon="❄️", layout="centered")
-
-flocons_html = ""
-for i in range(15):
-    left = random.randint(0, 100)
-    size = random.randint(12, 28)
-    duration = random.randint(8, 18)
-    delay = random.randint(0, 10)
-
-    flocons_html += f"""
-    <div class="snowflake"
-         style="
-            left:{left}%;
-            font-size:{size}px;
-            animation-duration:{duration}s;
-            animation-delay:{delay}s;">
-        ❄
-    </div>
-    """
-st.markdown(f"""
-<style>
-.snowflake {{
-    color: white;
-    position: fixed;
-    top: -10%;
-    z-index: 9999;
-    user-select: none;
-    pointer-events: none;
-    animation-name: fall, shake;
-    animation-timing-function: linear, ease-in-out;
-    animation-iteration-count: infinite, infinite;
-}}
-@keyframes fall {{
-    to {{ top: 110%; }}
-}}
-@keyframes shake {{
-    0%, 100% {{ transform: translateX(0); }}
-    50% {{ transform: translateX(60px); }}
-}}
-</style>
-
-{flocons_html}
-""", unsafe_allow_html=True)
 
 st.markdown("""
     <style>
@@ -93,7 +50,6 @@ st.markdown("""
         transform: scale(1.02);
         box-shadow: 0px 0px 25px rgba(102, 0, 255, 0.6);
     }
-
 
     /* ANIMATION NEIGE */
     .snowflake {
