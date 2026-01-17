@@ -1,3 +1,6 @@
+Final :
+
+
 import streamlit as st
 import time
 import base64
@@ -21,12 +24,13 @@ def jouer_musique_secure(fichier_audio):
     else:
         st.toast("⚠️ Note : Layla.mp3 est absent, mais on continue en silence !", icon="🔇")
 
-# --- 2. STYLE, NEIGE & GLASSMORPHISM (Fusionné) ---
+# --- 2. STYLE & DESIGN : LA TEMPÊTE IMMERSIVE (CORRIGÉE) ---
 
-# Génération des 100 flocons
+# 1. On génère d'abord la liste des flocons dans une variable
 flocons_types = ['❄', '❅', '❆']
 divs_flocons = ""
-for i in range(100):
+
+for i in range(100): 
     left = random.uniform(0, 100)
     size = random.randint(10, 35)
     duration = random.uniform(5, 15)
@@ -34,33 +38,21 @@ for i in range(100):
     opacity = random.uniform(0.2, 0.9)
     char = random.choice(flocons_types)
     blur = "2px" if size > 25 else "0px"
+    
     divs_flocons += f'<div class="snowflake" style="left:{left}%; font-size:{size}px; animation-duration:{duration}s; animation-delay:{delay}s; opacity:{opacity}; filter:blur({blur});">{char}</div>'
 
-# ON ENVOIE TOUT LE DESIGN D'UN COUP
+# 2. ON ENVOIE TOUT D'UN COUP (Le CSS + les Divs)
+# Attention : bien vérifier que unsafe_allow_html=True est présent à la fin !
 st.markdown(f"""
 <style>
-/* 1. Fond et texte global */
 .stApp {{
     background-color: #0E1117;
 }}
 
-h1, h2, h3, p, label, .stMarkdown, .stTextInput {{
+h1, h2, h3, p, label, .stMarkdown {{
     color: white !important;
 }}
 
-/* 2. EFFET VERRE DÉPOLI POUR LES INPUTS (Glassmorphism) */
-div[data-baseweb="input"], div[data-baseweb="select"], .stSelectbox > div {{
-    background: rgba(255, 255, 255, 0.05) !important;
-    backdrop-filter: blur(10px) !important;
-    border-radius: 12px !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-}}
-
-input {{
-    color: white !important;
-}}
-
-/* 3. Animation de la Neige */
 .snowflake {{
     color: #ffffff;
     position: fixed;
@@ -83,7 +75,6 @@ input {{
     50% {{ transform: translateX(30px) rotate(20deg); }}
 }}
 
-/* 4. Bouton ultra-stylé */
 .stButton>button {{
     width: 100%;
     height: 70px;
@@ -93,7 +84,6 @@ input {{
     font-weight: bold;
     border-radius: 15px;
     border: none;
-    box-shadow: 0 4px 15px rgba(102, 0, 255, 0.4);
 }}
 </style>
 
