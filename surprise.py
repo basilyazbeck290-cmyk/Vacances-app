@@ -97,7 +97,7 @@ with st.container():
 
     col1, col2 = st.columns([1, 1], gap="large")
 
-    with col1:
+with col1:
         st.write("**🪫 Ton niveau d'énergie**")
         batterie = st.select_slider(
             "Franchement, comment tu te sens ?", 
@@ -105,36 +105,21 @@ with st.container():
             value="😫 Fatigué"
         )
         
-        # Le petit "plus" humain : une réaction au choix
-        if "💀" in batterie:
-            st.caption("Oh... il était temps que ça s'arrête. Courage !")
-        elif "🚀" in batterie:
-            st.caption("Quelle énergie ! Tu vas tout casser.")
-
-    with col2:
-        st.write("**🌴 Ton projet secret**")
-        activite = st.selectbox(
-            "Ta priorité absolue ?", 
-            ["Hibernation totale 🐻", "Raclette Party 🧀", "Marathon De Films 📺", "Aller skier ⛷️", "Fuite à l'étranger ✈️", "Apéro infini 🍻"]
-        )
+        # --- LE DIAGNOSTIC (Pour boucher le trou) ---
+        diags = {
+            "💀 HS": {"t": "Alerte : Zombie détecté", "p": "Réanimation par perfusion de sieste conseillée.", "c": "error"},
+            "😫 Fatigué": {"t": "Mode Éco", "p": "Ordonnance : 3 jours de pyjama et interdiction de mails.", "c": "warning"},
+            "😐 Ça va": {"t": "Survivant stable", "p": "Tu tiens encore debout, c'est déjà un miracle.", "c": "info"},
+            "😁 En forme": {"t": "Anomalie suspecte", "p": "Trop d'énergie pour un mois de Janvier. On surveille.", "c": "success"},
+            "🚀 Prêt à tout": {"t": "Veuillez redescendre", "p": "Calme-toi sur l'expresso, Elon. On est pas sur Mars.", "c": "success"}
+        }
         
-        transport = st.selectbox(
-            "Tu t'en vas comment ?", 
-            ["Téléportation", "À la nage", "Dos de Dragon", "Trottinette Électrique", "Tapis Volant", "Uber Copter", "Sur un vélo volé"]
-        )
-
-
-# Dictionnaire de réactions
-reactions = {
-    "💀 HS": {"msg": "Diagnostic : Mort clinique. Réanimation par perfusion de sieste conseillée", "color": "error"},
-    "😫 Fatigué": {"msg": "Ordonnance : 3 jours de pyjama et interdiction de regarder tes mails", "color": "warning"},
-    "😐 Ça va": {"msg": "État stable. Tu peux tenir encore 2h, après on ne garantit plus rien", "color": "info"},
-    "😁 En forme": {"msg": "Anomalie détectée : Trop d'énergie pour un mois de Janvier. On surveille ça", "color": "success"},
-    "🚀 Prêt à tout": {"msg": "On t'a reconnu, Elon Musk. Calme-toi sur les expresso, on est juste en janvier, pas sur Mars", "color": "success"}
-}
-
-# 2. On récupère les infos selon le slider
-info = reaction.get(batterie)
+        info = diags[batterie]
+        st.write(f"**{info['t']}**")
+        if info['c'] == "error": st.error(info['p'])
+        elif info['c'] == "warning": st.warning(info['p'])
+        elif info['c'] == "success": st.success(info['p'])
+        else: st.info(info['p'])
 
 # 3. On affiche ça proprement dans le "trou"
 st.write(f"**{info['titre']}**")
