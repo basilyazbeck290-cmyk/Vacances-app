@@ -72,7 +72,7 @@ st.markdown("""
         box-shadow: 0px 0px 25px rgba(102, 0, 255, 0.6);
     }
 
-    st.markdown(f"""
+    
     <style>
     
     /* ANIMATION NEIGE AMÉLIORÉE */
