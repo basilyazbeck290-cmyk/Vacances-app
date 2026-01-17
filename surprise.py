@@ -38,8 +38,6 @@ for i in range(100):
     
     divs_flocons += f'<div class="snowflake" style="left:{left}%; font-size:{size}px; animation-duration:{duration}s; animation-delay:{delay}s; opacity:{opacity}; filter:blur({blur});">{char}</div>'
 
-# 2. ON ENVOIE TOUT D'UN COUP (Le CSS + les Divs)
-# Attention : bien vérifier que unsafe_allow_html=True est présent à la fin !
 st.markdown(f"""
 <style>
 .stApp {{
@@ -83,6 +81,28 @@ h1, h2, h3, p, label, .stMarkdown {{
     border: none;
 }}
 </style>
+
+
+/* EFFET VERRE DÉPOLI POUR LES INPUTS */
+div[data-baseweb="input"], div[data-baseweb="select"] {{
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(10px); /* Floute la neige derrière l'input ! */
+    border-radius: 12px !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}}
+
+/* Pour le texte à l'intérieur des inputs */
+input {{
+    color: white !important;
+}}
+
+/* Changement de couleur au survol des options du menu */
+div[role="listbox"] {{
+    background-color: #1e2129 !important;
+    color: white !important;
+}}
+</style>
+""", unsafe_allow_html=True)
 
 {divs_flocons}
 """, unsafe_allow_html=True)
