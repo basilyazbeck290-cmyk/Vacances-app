@@ -93,11 +93,11 @@ with st.container():
         
         # --- LE DIAGNOSTIC (Comble le trou sous le slider) ---
         diags = {
-            "💀 HS": {"t": "Alerte : Zombie détecté", "p": "Diagnostic : Mort clinique. Réanimation par perfusion de fromage fondu conseillée.", "c": "error"},
-            "😫 Fatigué": {"t": "Mode Éco activé", "p": "Ordonnance : 3 jours de pyjama et interdiction formelle de regarder tes mails.", "c": "warning"},
-            "😐 Ça va": {"t": "Survivant stable", "p": "Le fameux 'ça va' qui veut dire 'je ne pleure pas encore'. Tu tiens le coup !", "c": "info"},
+            "💀 HS": {"t": "Alerte : Zombie détecté", "p": "Diagnostic : Mort clinique. Réanimation par perfusion de sieste conseillée.", "c": "error"},
+            "😫 Fatigué": {"t": "Mode Éco activé", "p": "Ordonnance : 3 jours de pyjama et interdiction de regarder les mails.", "c": "warning"},
+            "😐 Ça va": {"t": "Survivant stable", "p": "Mouais, on y crois 🤨", "c": "info"},
             "😁 En forme": {"t": "Anomalie suspecte", "p": "Trop d'énergie pour un mois de Janvier. On surveille ça de près...", "c": "success"},
-            "🚀 Prêt à tout": {"t": "Veuillez redescendre", "p": "Calme-toi sur l'expresso, Elon. On est juste en janvier, pas sur Mars.", "c": "success"}
+            "🚀 Prêt à tout": {"t": "Veuillez redescendre", "p": "Calme-toi sur l'expresso, Elon.<br>On est juste en janvier, pas sur Mars.", "c": "success"}
         }
         
         info = diags[batterie]
@@ -124,7 +124,7 @@ couleur_choisie = "#00FFFF" # Bleu néon pour le ticket
 st.write("---")
 bt_left, bt_center, bt_right = st.columns([1, 2, 1])
 with bt_center:
-    bouton_clique = st.button("GÉNÉRER MON PASSEPORT LIBERTÉ 🚀")
+    bouton_clique = st.button("IMPRIMER LE BOARDING PASS 🚀")
 
 # --- 4. LOGIQUE D'ACTIVATION ---
 if bouton_clique:
@@ -157,7 +157,7 @@ if bouton_clique:
                 <div style="font-size: 25px;">🚀</div>
                 <div><p style="color: {couleur_choisie}; font-size: 12px; margin:0;">TRANSPORT</p><p style="color: white; font-weight: bold;">{transport}</p></div>
             </div>
-            <div style="margin-top: 30px; font-size: 12px; color: #777;">Cerveau officiellement en veille. Validité : Jusqu'à ce que le réveil sonne.</div>
+            <div style="margin-top: 30px; font-size: 12px; color: #777;">Ce document certifie que le cerveau de l'utilisateur est officiellement en veille<br>Validité : Jusqu'à la reprise (désolé)</div>
         </div>
         <style> @keyframes slideUp {{ from {{ transform: translateY(50px); opacity: 0; }} to {{ transform: translateY(0); opacity: 1; }} }} </style>
         """
