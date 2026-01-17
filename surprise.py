@@ -42,6 +42,10 @@ if 'neige_html' not in st.session_state:
     # On stocke le HTML généré pour ne plus y toucher
     st.session_state.neige_html = divs_flocons
 
+# --- 2. STYLE & DESIGN : LA TEMPÊTE IMMERSIVE (STABILISÉE) ---
+
+# ... (votre code de génération de flocons reste identique)
+
 # Injection du CSS et du HTML mémorisé
 st.markdown(f"""
 <style>
@@ -65,19 +69,19 @@ h1, h2, h3, p, label, .stMarkdown {{
     animation-iteration-count: infinite, infinite;
 }}
 
-.diag-card {
+.diag-card {{
     padding: 15px;
     border-radius: 10px;
     margin-top: 10px;
     border-left: 5px solid;
     background-color: rgba(255, 255, 255, 0.05);
-    animation: fadeIn 0.4s ease-out; /* Effet de fondu doux */
-}
+    animation: fadeIn 0.4s ease-out;
+}}
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(5px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+@keyframes fadeIn {{
+    from {{ opacity: 0; transform: translateY(5px); }}
+    to {{ opacity: 1; transform: translateY(0); }}
+}}
 
 @keyframes fall {{
     0% {{ top: -10%; }}
