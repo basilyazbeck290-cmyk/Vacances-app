@@ -28,11 +28,11 @@ def jouer_musique_secure(fichier_audio):
 
 # --- 3. DICTIONNAIRE DE DONNÉES (Placé avant l'usage) ---
 diags = {
-    "💀 HS": {"t": "Alerte : Zombie détecté", "p": "Diagnostic : Mort clinique.\n\nRéanimation par perfusion de sieste conseillée.", "c": "error"},
-    "😫 Fatigué": {"t": "Mode Éco activé", "p": "Ordonnance : 3 jours de pyjama et interdiction de regarder les mails.", "c": "warning"},
-    "😐 Ça va": {"t": "Survivant stable", "p": "Mouais, on y croit 🤨", "c": "info"},
-    "😁 En forme": {"t": "Anomalie suspecte", "p": "Trop d'énergie pour un mois de Janvier.\n\nOn surveille ça de près...", "c": "success"},
-    "🚀 Prêt à tout": {"t": "Veuillez redescendre", "p": "Calme-toi sur l'expresso, Elon.\n\nOn est juste en janvier, pas sur Mars.", "c": "success"}
+    "💀 HS": {"p": "Diagnostic : Mort clinique.\n\nRéanimation par perfusion de sieste conseillée.", "c": "error"},
+    "😫 Fatigué": {"p": "Ordonnance : 3 jours de pyjama et interdiction de regarder les mails.", "c": "warning"},
+    "😐 Ça va": {"p": "Mouais, on y croit 🤨", "c": "info"},
+    "😁 En forme": {"p": "Trop d'énergie pour un mois de Janvier.\n\nOn surveille ça de près...", "c": "success"},
+    "🚀 Prêt à tout": {"Veuillez redescendre", "p": "Calme-toi sur l'expresso, Elon.\n\nOn est juste en janvier, pas sur Mars.", "c": "success"}
 }
 
 # --- 4. STYLE & DESIGN ---
@@ -97,7 +97,6 @@ with col1:
     )
     
     info = diags[batterie]
-    st.write(f"**{info['t']}**")
 
     couleurs_douces = {
         "error": "#FF6B6B",
