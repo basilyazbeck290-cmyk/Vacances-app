@@ -78,34 +78,57 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-# --- 3. INTERFACE (Le contenu Fun du Code 1) ---
-st.title("❄️ Check-out : Session Janvier")
-st.write("Configure ton extraction vers la liberté :")
+# --- 3. INTERFACE (Version Humanisée) ---
 
-col1, col2 = st.columns(2)
+st.title("❄️ Presque la quille !")
+st.subheader("On prépare ton billet de sortie pour février ?")
 
-with col1:
-    st.write("**Identité de l'agent**")
-    prenom = st.text_input("Ton Prénom :", placeholder="Ex: Basil")
-    batterie = st.select_slider("État vital actuel :", 
-        options=["1% (Critique 💀)", "20% (Eco 😫)", "40% (Fragile 🫤)", "60% (Stable 😐)", "80% (En forme 😁)", "100% (Machine 🚀)"],
-        value="20% (Eco 😫)")
+# On utilise un container pour regrouper les infos de manière moins "grille"
+with st.container():
+    st.write("### 📝 Quelques détails avant de partir...")
+    
+    # Prénom avec un ton plus amical
+    prenom = st.text_input("C'est pour quel nom le ticket ?", placeholder="Ton petit nom ici...")
+    
+    if prenom:
+        st.write(f"Ok {prenom}, on s'occupe de tout. ✨")
 
-with col2:
-    st.write("**Logistique de fuite**")
-    activite = st.selectbox("Mission Prioritaire :", ["Hibernation totale 🐻", "Raclette Party 🧀", "Marathon De Films 📺", "Aller skier ⛷️", "Fuite à l'étranger ✈️", "Apéro infini 🍻"])
-    # ON GARDE LE TRANSPORT (C'est le plus drôle)
-    transport = st.selectbox("Moyen d'exfiltration :", ["Téléportation", "À la nage", "Dos de Dragon", "Trottinette Électrique", "Tapis Volant", "Uber Copter"])
+    st.divider()
 
-# Couleur imposée pour le style (Meilleur choix UX)
-couleur_choisie = "#00FFFF" 
+    col1, col2 = st.columns([1, 1], gap="large")
 
-st.write(""); st.write("")
+    with col1:
+        st.write("**🪫 Ton niveau d'énergie**")
+        batterie = st.select_slider(
+            "Franchement, comment tu te sens ?", 
+            options=["💀 HS", "😫 Fatigué", "😐 Ça va", "😁 En forme", "🚀 Prêt à tout"],
+            value="😫 Fatigué"
+        )
+        
+        # Le petit "plus" humain : une réaction au choix
+        if "💀" in batterie:
+            st.caption("Oh... il était temps que ça s'arrête. Courage !")
+        elif "🚀" in batterie:
+            st.caption("Quelle énergie ! Tu vas tout casser.")
 
-# Le bouton centré
+    with col2:
+        st.write("**🌴 Ton projet secret**")
+        activite = st.selectbox(
+            "Ta priorité absolue ?", 
+            ["Dormir 15h par jour 🐻", "Manger de la raclette 🧀", "Rien faire du tout 📺", "Aller voir la neige ⛷️", "Partir loin ✈️"]
+        )
+        
+        transport = st.selectbox(
+            "Tu t'en vas comment ?", 
+            ["En téléportation", "En dos de dragon", "En trottinette", "En tapis volant"]
+        )
+
+# On rend le bouton moins "industriel"
+st.write("---")
 bt_left, bt_center, bt_right = st.columns([1, 2, 1])
 with bt_center:
-    bouton_clique = st.button("IMPRIMER LE BOARDING PASS 🚀")
+    # Changement du label pour quelque chose de plus excitant
+    bouton_clique = st.button("GÉNÉRER MON PASSEPORT LIBERTÉ ✨")
 
 
 # --- 4. LOGIQUE D'ACTIVATION ---
