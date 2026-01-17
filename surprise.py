@@ -133,10 +133,19 @@ reactions = {
     "🚀 Prêt à tout": {"msg": "On t'a reconnu, Elon Musk. Calme-toi sur les expresso, on est juste en janvier, pas sur Mars", "color": "success"}
 }
 
-# Affichage dynamique
-reponse = reactions.get(batterie)
-st.toast(reponse["msg"]) # Optionnel : un petit pop-up en bas à droite
-st.info(reponse["msg"]) # Le texte qui remplit le trou
+# 2. On récupère les infos selon le slider
+info = reaction.get(batterie)
+
+# 3. On affiche ça proprement dans le "trou"
+st.write(f"**{info['titre']}**")
+if info['couleur'] == "error":
+    st.error(info['phrase'])
+elif info['couleur'] == "warning":
+    st.warning(info['phrase'])
+elif info['couleur'] == "success":
+    st.success(info['phrase'])
+else:
+    st.info(info['phrase'])
 
 
 # On rend le bouton moins "industriel"
