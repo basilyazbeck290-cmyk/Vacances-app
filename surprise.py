@@ -27,6 +27,8 @@ def jouer_musique_secure(fichier_audio):
 st.set_page_config(page_title="Mission : Libération", page_icon="❄️", layout="centered")
 
 
+# --- 2. STYLE & DESIGN CUSTOM (VERSION PROPRE) ---
+
 flocons_html = ""
 for i in range(15):
     left = random.randint(0, 100)
@@ -45,62 +47,73 @@ for i in range(15):
     </div>
     """
 
+st.markdown(f"""
+<style>
+/* GLOBAL */
+.stApp {{
+    background-color: #0E1117;
+}}
 
-st.markdown("""
-    <style>
-    .stApp { background-color: #0E1117; }
-    p, label, h1, h2, h3 { color: white !important; }
-    
-    /* Inputs plus doux */
-    .stTextInput > div > div > input { border-radius: 10px; background-color: #262730; color: white; }
-    div[data-baseweb="select"] > div { border-radius: 10px; background-color: #262730; }
+p, label, h1, h2, h3 {{
+    color: white !important;
+}}
 
-    /* BOUTON ULTRA-STYLÉ */
-    .stButton>button {
-        width: 100%;
-        height: 70px;
-        background: linear-gradient(90deg, #FF007F, #6600FF);
-        color: white;
-        font-size: 20px;
-        font-weight: bold;
-        border: none;
-        border-radius: 15px;
-        transition: 0.4s;
-    }
-    .stButton>button:hover {
-        transform: scale(1.02);
-        box-shadow: 0px 0px 25px rgba(102, 0, 255, 0.6);
-    }
+/* Inputs plus doux */
+.stTextInput > div > div > input {{
+    border-radius: 10px;
+    background-color: #262730;
+    color: white;
+}}
 
-    
-    <style>
-    
-    /* ANIMATION NEIGE AMÉLIORÉE */
-    .snowflake {{
-        color: white;
-        position: fixed;
-        top: -10%;
-        z-index: 9999;
-        user-select: none;
-        pointer-events: none;
-        animation-name: fall, shake;
-        animation-timing-function: linear, ease-in-out;
-        animation-iteration-count: infinite, infinite;
-    }}
-    
-    @keyframes fall {{
-        to {{ top: 110%; }}
-    }}
-    
-    @keyframes shake {{
-        0%, 100% {{ transform: translateX(0); }}
-        50% {{ transform: translateX(60px); }}
-    }}
-    
-    </style>
-    
-    {flocons_html}
-    """, unsafe_allow_html=True)
+div[data-baseweb="select"] > div {{
+    border-radius: 10px;
+    background-color: #262730;
+}}
+
+/* BOUTON ULTRA-STYLÉ */
+.stButton>button {{
+    width: 100%;
+    height: 70px;
+    background: linear-gradient(90deg, #FF007F, #6600FF);
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    border: none;
+    border-radius: 15px;
+    transition: 0.4s;
+}}
+
+.stButton>button:hover {{
+    transform: scale(1.02);
+    box-shadow: 0px 0px 25px rgba(102, 0, 255, 0.6);
+}}
+
+/* ❄️ NEIGE DYNAMIQUE */
+.snowflake {{
+    color: white;
+    position: fixed;
+    top: -10%;
+    z-index: 9999;
+    user-select: none;
+    pointer-events: none;
+    animation-name: fall, shake;
+    animation-timing-function: linear, ease-in-out;
+    animation-iteration-count: infinite, infinite;
+}}
+
+@keyframes fall {{
+    to {{ top: 110%; }}
+}}
+
+@keyframes shake {{
+    0%, 100% {{ transform: translateX(0); }}
+    50% {{ transform: translateX(60px); }}
+}}
+</style>
+
+{flocons_html}
+""", unsafe_allow_html=True)
+
 
 
 # --- 3. INTERFACE UTILISATEUR (La partie "Humaine") ---
