@@ -68,7 +68,7 @@ st.markdown("""
 # --- 3. INTERFACE UTILISATEUR (La partie "Humaine") ---
 
 st.title("❄️ Presque la quille !")
-st.subheader("Check Out Session Janvier")
+st.subheader("Check Out : Session Janvier")
 
 with st.container():
     st.write("On  y est presque")
