@@ -65,6 +65,20 @@ h1, h2, h3, p, label, .stMarkdown {{
     animation-iteration-count: infinite, infinite;
 }}
 
+.diag-card {
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 10px;
+    border-left: 5px solid;
+    background-color: rgba(255, 255, 255, 0.05);
+    animation: fadeIn 0.4s ease-out; /* Effet de fondu doux */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 @keyframes fall {{
     0% {{ top: -10%; }}
     100% {{ top: 110%; }}
@@ -85,6 +99,7 @@ h1, h2, h3, p, label, .stMarkdown {{
     border-radius: 15px;
     border: none;
 }}
+
 </style>
 
 {st.session_state.neige_html}
@@ -122,12 +137,26 @@ with st.container():
             "🚀 Prêt à tout": {"t": "Veuillez redescendre", "p": "Calme-toi sur l'expresso, Elon.\n\nOn est juste en janvier, pas sur Mars.", "c": "success"}
         }
         
-        info = diags[batterie]
-        st.write(f"**{info['t']}**")
-        if info['c'] == "error": st.error(info['p'])
-        elif info['c'] == "warning": st.warning(info['p'])
-        elif info['c'] == "success": st.success(info['p'])
-        else: st.info(info['p'])
+# --- Nouveau système de Diagnostic Fluide ---
+info = diags[batterie]
+st.write(f"**{info['t']}**")
+
+# Mapping des couleurs pour le style personnalisé
+couleurs_douces = {
+    "error": "#FF4B4B",   # Rouge doux
+    "warning": "#FFA421", # Orange
+    "info": "#00C0F2",    # Bleu
+    "success": "#00D488"  # Vert
+}
+color = couleurs_douces.get(info['c'], "#FFFFFF")
+
+# Affichage avec le style CSS 'diag-card'
+st.markdown(f"""
+    <div class="diag-card" style="border-color: {color};">
+        <p style="color: {color} !important; font-weight: bold; margin-bottom: 5px;">Rapport :</p>
+        <p style="color: white !important; margin: 0;">{info['p']}</p>
+    </div>
+""", unsafe_allow_html=True)
 
     with col2:
         st.write("**🌴 Ton projet secret**")
