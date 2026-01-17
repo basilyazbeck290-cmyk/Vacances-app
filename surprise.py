@@ -21,13 +21,12 @@ def jouer_musique_secure(fichier_audio):
     else:
         st.toast("⚠️ Note : Layla.mp3 est absent, mais on continue en silence !", icon="🔇")
 
-# --- 2. STYLE & DESIGN : LA TEMPÊTE IMMERSIVE (CORRIGÉE) ---
+# --- 2. STYLE, NEIGE & GLASSMORPHISM (Fusionné) ---
 
-# 1. On génère d'abord la liste des flocons dans une variable
+# Génération des 100 flocons
 flocons_types = ['❄', '❅', '❆']
 divs_flocons = ""
-
-for i in range(100): 
+for i in range(100):
     left = random.uniform(0, 100)
     size = random.randint(10, 35)
     duration = random.uniform(5, 15)
@@ -35,19 +34,33 @@ for i in range(100):
     opacity = random.uniform(0.2, 0.9)
     char = random.choice(flocons_types)
     blur = "2px" if size > 25 else "0px"
-    
     divs_flocons += f'<div class="snowflake" style="left:{left}%; font-size:{size}px; animation-duration:{duration}s; animation-delay:{delay}s; opacity:{opacity}; filter:blur({blur});">{char}</div>'
 
+# ON ENVOIE TOUT LE DESIGN D'UN COUP
 st.markdown(f"""
 <style>
+/* 1. Fond et texte global */
 .stApp {{
     background-color: #0E1117;
 }}
 
-h1, h2, h3, p, label, .stMarkdown {{
+h1, h2, h3, p, label, .stMarkdown, .stTextInput {{
     color: white !important;
 }}
 
+/* 2. EFFET VERRE DÉPOLI POUR LES INPUTS (Glassmorphism) */
+div[data-baseweb="input"], div[data-baseweb="select"], .stSelectbox > div {{
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(10px) !important;
+    border-radius: 12px !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}}
+
+input {{
+    color: white !important;
+}}
+
+/* 3. Animation de la Neige */
 .snowflake {{
     color: #ffffff;
     position: fixed;
@@ -70,6 +83,7 @@ h1, h2, h3, p, label, .stMarkdown {{
     50% {{ transform: translateX(30px) rotate(20deg); }}
 }}
 
+/* 4. Bouton ultra-stylé */
 .stButton>button {{
     width: 100%;
     height: 70px;
@@ -79,30 +93,9 @@ h1, h2, h3, p, label, .stMarkdown {{
     font-weight: bold;
     border-radius: 15px;
     border: none;
+    box-shadow: 0 4px 15px rgba(102, 0, 255, 0.4);
 }}
 </style>
-
-
-/* EFFET VERRE DÉPOLI POUR LES INPUTS */
-div[data-baseweb="input"], div[data-baseweb="select"] {{
-    background: rgba(255, 255, 255, 0.05) !important;
-    backdrop-filter: blur(10px); /* Floute la neige derrière l'input ! */
-    border-radius: 12px !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-}}
-
-/* Pour le texte à l'intérieur des inputs */
-input {{
-    color: white !important;
-}}
-
-/* Changement de couleur au survol des options du menu */
-div[role="listbox"] {{
-    background-color: #1e2129 !important;
-    color: white !important;
-}}
-</style>
-""", unsafe_allow_html=True)
 
 {divs_flocons}
 """, unsafe_allow_html=True)
