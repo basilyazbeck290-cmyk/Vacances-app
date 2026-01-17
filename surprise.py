@@ -21,28 +21,9 @@ def jouer_musique_secure(fichier_audio):
     else:
         st.toast("⚠️ Note : Layla.mp3 est absent, mais on continue en silence !", icon="🔇")
 
-# --- 2. STYLE & DESIGN : LA TEMPÊTE IMMERSIVE (STABILISÉE) ---
+# --- 2. STYLE & DESIGN (CORRIGÉ & ADOUCI) ---
 
-# On vérifie si les flocons sont déjà dans la "mémoire" de la session
-if 'neige_html' not in st.session_state:
-    flocons_types = ['❄', '❅', '❆']
-    divs_flocons = ""
-
-    for i in range(100): 
-        left = random.uniform(0, 100)
-        size = random.randint(10, 35)
-        duration = random.uniform(5, 15)
-        delay = random.uniform(0, 10)
-        opacity = random.uniform(0.2, 0.9)
-        char = random.choice(flocons_types)
-        blur = "2px" if size > 25 else "0px"
-        
-        divs_flocons += f'<div class="snowflake" style="left:{left}%; font-size:{size}px; animation-duration:{duration}s; animation-delay:{delay}s; opacity:{opacity}; filter:blur({blur});">{char}</div>'
-    
-    # On stocke le HTML généré pour ne plus y toucher
-    st.session_state.neige_html = divs_flocons
-
-# Injection du CSS et du HTML mémorisé
+# Injection du CSS avec les accolades doublées pour les animations
 st.markdown(f"""
 <style>
 .stApp {{
@@ -65,19 +46,21 @@ h1, h2, h3, p, label, .stMarkdown {{
     animation-iteration-count: infinite, infinite;
 }}
 
-.diag-card {
+/* LE FIX EST ICI : On double les {{ }} pour le CSS */
+.diag-card {{
     padding: 15px;
-    border-radius: 10px;
-    margin-top: 10px;
+    border-radius: 12px;
+    margin-top: 15px;
     border-left: 5px solid;
-    background-color: rgba(255, 255, 255, 0.05);
-    animation: fadeIn 0.4s ease-out; /* Effet de fondu doux */
-}
+    background-color: rgba(255, 255, 255, 0.03);
+    transition: all 0.5s ease-in-out; /* Transition douce pour le changement de couleur */
+    animation: fadeIn 0.6s ease-out;
+}}
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(5px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+@keyframes fadeIn {{
+    from {{ opacity: 0; transform: translateY(10px); }}
+    to {{ opacity: 1; transform: translateY(0); }}
+}}
 
 @keyframes fall {{
     0% {{ top: -10%; }}
@@ -99,12 +82,10 @@ h1, h2, h3, p, label, .stMarkdown {{
     border-radius: 15px;
     border: none;
 }}
-
 </style>
 
 {st.session_state.neige_html}
 """, unsafe_allow_html=True)
-
 
 # --- 3. INTERFACE UTILISATEUR ---
 
@@ -121,13 +102,32 @@ with st.container():
 
     col1, col2 = st.columns([1, 1], gap="large")
 
-    with col1:
+with col1:
         st.write("**🪫 Ton niveau d'énergie**")
         batterie = st.select_slider(
             "Alors, comment tu te sens ?", 
             options=["💀 HS", "😫 Fatigué", "😐 Ça va", "😁 En forme", "🚀 Prêt à tout"],
             value="😫 Fatigué"
         )
+        
+        info = diags[batterie]
+        st.write(f"**{info['t']}**")
+
+        # Couleurs plus pastel/douces pour ne pas agresser l'œil
+        couleurs_douces = {
+            "error": "#FF6B6B",
+            "warning": "#FFD93D",
+            "info": "#6BCBFF",
+            "success": "#6BFFB8"
+        }
+        color = couleurs_douces.get(info['c'], "#FFFFFF")
+
+        st.markdown(f"""
+            <div class="diag-card" style="border-color: {color};">
+                <p style="color: {color} !important; font-weight: bold; margin-bottom: 5px; opacity: 0.8;">RAPPORT D'ANALYSE</p>
+                <p style="color: white !important; margin: 0; font-size: 1.1em;">{info['p']}</p>
+            </div>
+        """, unsafe_allow_html=True)
         
         diags = {
             "💀 HS": {"t": "Alerte : Zombie détecté", "p": "Diagnostic : Mort clinique.\n\nRéanimation par perfusion de sieste conseillée.", "c": "error"},
@@ -136,19 +136,7 @@ with st.container():
             "😁 En forme": {"t": "Anomalie suspecte", "p": "Trop d'énergie pour un mois de Janvier.\n\nOn surveille ça de près...", "c": "success"},
             "🚀 Prêt à tout": {"t": "Veuillez redescendre", "p": "Calme-toi sur l'expresso, Elon.\n\nOn est juste en janvier, pas sur Mars.", "c": "success"}
         }
-        
-# --- Nouveau système de Diagnostic Fluide ---
-info = diags[batterie]
-st.write(f"**{info['t']}**")
-
-# Mapping des couleurs pour le style personnalisé
-couleurs_douces = {
-    "error": "#FF4B4B",   # Rouge doux
-    "warning": "#FFA421", # Orange
-    "info": "#00C0F2",    # Bleu
-    "success": "#00D488"  # Vert
-}
-color = couleurs_douces.get(info['c'], "#FFFFFF")
+    
 
 # Affichage avec le style CSS 'diag-card'
 st.markdown(f"""
