@@ -21,42 +21,57 @@ def jouer_musique_secure(fichier_audio):
     else:
         st.toast("⚠️ Note : Layla.mp3 est absent, mais on continue en silence !", icon="🔇")
 
-# --- 2. STYLE & DESIGN CUSTOM (La version qui ne s'affiche pas en texte) ---
+# --- 2. STYLE & DESIGN : LA TEMPÊTE IMMERSIVE ---
 
+# On multiplie les types de flocons et on augmente le nombre
+flocons_types = ['❄', '❅', '❆']
 flocons_html = ""
-for i in range(40):
-    left = random.uniform(0, 100)
-    size = random.randint(10, 25)
-    duration = random.uniform(7, 15)
-    delay = random.uniform(0, 10)
-    opacity = random.uniform(0.3, 0.8)
-    
-    flocons_html += f'<div class="snowflake" style="left:{left}%; font-size:{size}px; animation-duration:{duration}s; animation-delay:{delay}s; opacity:{opacity};">❄</div>'
 
-# C'EST ICI QUE LA MAGIE OPÈRE :
+for i in range(100):  # On passe à 100 pour une vraie présence !
+    left = random.uniform(0, 100)
+    size = random.randint(10, 35)      # Tailles variées
+    duration = random.uniform(5, 15)   # Vitesses variées
+    delay = random.uniform(0, 10)
+    opacity = random.uniform(0.2, 0.9)
+    char = random.choice(flocons_types)
+    
+    # On ajoute un flou plus fort pour les gros flocons (effet de proximité)
+    blur = "2px" if size > 25 else "0px"
+    
+    flocons_html += f"""
+    <div class="snowflake" style="
+        left: {left}%;
+        font-size: {size}px;
+        animation-duration: {duration}s;
+        animation-delay: {delay}s;
+        opacity: {opacity};
+        filter: blur({blur});
+    ">{char}</div>
+    """
+
 st.markdown(f"""
 <style>
-/* Fond de l'application */
+/* FOND ET COULEURS GÉNÉRALES */
 .stApp {{
     background-color: #0E1117;
 }}
 
-/* Forcer la couleur blanche pour tout le texte */
 h1, h2, h3, p, label, .stMarkdown, .stTextInput {{
     color: white !important;
 }}
 
-/* Les flocons */
+/* CONFIGURATION DE LA NEIGE */
 .snowflake {{
-    color: white;
+    color: #ffffff;
     position: fixed;
     top: -10%;
     z-index: 9999;
     user-select: none;
-    pointer-events: none; /* Empêche les flocons de bloquer les clics */
+    pointer-events: none;
     animation-name: fall, shake;
     animation-timing-function: linear, ease-in-out;
     animation-iteration-count: infinite, infinite;
+    text-shadow: 0 0 5px rgba(255,255,255,0.3); /* Petit halo brillant */
 }}
 
 @keyframes fall {{
@@ -65,19 +80,35 @@ h1, h2, h3, p, label, .stMarkdown, .stTextInput {{
 }}
 
 @keyframes shake {{
-    0%, 100% {{ transform: translateX(0); }}
-    50% {{ transform: translateX(50px); }}
+    0%, 100% {{ transform: translateX(0) rotate(0deg); }}
+    33% {{ transform: translateX(30px) rotate(20deg); }}
+    66% {{ transform: translateX(-30px) rotate(-20deg); }}
 }}
 
-/* Bouton stylé */
+/* BOUTON ULTRA-STYLÉ AVEC GLOW */
 .stButton>button {{
     width: 100%;
     height: 70px;
     background: linear-gradient(90deg, #FF007F, #6600FF);
     color: white !important;
-    font-size: 20px;
-    border-radius: 15px;
+    font-size: 22px;
+    font-weight: bold;
     border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(102, 0, 255, 0.4);
+    transition: 0.3s;
+}}
+
+.stButton>button:hover {{
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(102, 0, 255, 0.6);
+}}
+
+/* Champs de saisie plus sombres et élégants */
+.stTextInput > div > div > input, .stSelectbox > div > div {{
+    background-color: #1e2129 !important;
+    border: 1px solid #3d4455 !important;
+    color: white !important;
 }}
 </style>
 
