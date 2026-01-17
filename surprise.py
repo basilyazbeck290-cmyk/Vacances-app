@@ -1,6 +1,3 @@
-Final :
-
-
 import streamlit as st
 import time
 import base64
