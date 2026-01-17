@@ -24,10 +24,6 @@ def jouer_musique_secure(fichier_audio):
         st.toast("⚠️ Note : Layla.mp3 est absent, mais on continue en silence !", icon="🔇")
 
 # --- 2. STYLE & DESIGN CUSTOM ---
-st.set_page_config(page_title="Mission : Libération", page_icon="❄️", layout="centered")
-
-
-# --- 2. STYLE & DESIGN CUSTOM (VERSION PROPRE) ---
 
 flocons_html = ""
 for i in range(15):
