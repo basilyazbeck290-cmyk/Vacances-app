@@ -77,7 +77,7 @@ with st.container():
     prenom = st.text_input("C'est pour quel nom le ticket ?", placeholder="Ton petit nom ici...")
     
     if prenom:
-        st.write(f"Parfait **{prenom}**, on s'occupe de ton exfiltration. ✨")
+        st.write(f"Parfait **{prenom}**, on s'occupe de ton exfiltration ✨")
 
     st.divider()
 
