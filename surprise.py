@@ -107,7 +107,8 @@ if prenom:
 
 st.divider()
 
-col1, col2 = st.columns([1, 1], gap="large")
+col1 = st.columns([1, 1], gap="large")
+col2 = st.columns([1, 1], gap="very large")
 
 with col1:
     st.write("**🪫 Ton niveau d'énergie**")
