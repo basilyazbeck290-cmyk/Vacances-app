@@ -148,7 +148,7 @@ with col2:
     )
 
 st.write("---")
-_, bt_center, _ = st.columns([1, 2, 2])
+_, bt_center, _ = st.columns([2, 2, 1])
 with bt_center:
     bouton_clique = st.button("IMPRIMER LE BOARDING PASS 🚀")
 
