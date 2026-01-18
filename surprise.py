@@ -164,6 +164,7 @@ if bouton_clique:
             barre.progress(i + 1)
         barre.empty()
         st.balloons()
+        st.snow()
         
         couleur_choisie = "#00FFFF"
         html_ticket = f"""
