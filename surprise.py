@@ -122,11 +122,11 @@ with col1:
         "😫 Fatigué": {"t": "Mode Éco activé", "p": "Ordonnance : 3 jours de pyjama et interdiction de regarder les mails", "c": "warning"},
         "😐 Ça va": {"t": "Survivant stable", "p": "\n\n Mouais, on y croit 🤨", "c": "info"},
         "😁 En forme": {"t": "Anomalie suspecte", "p": "Trop d'énergie pour un mois de Janvier. On surveille ça de près...", "c": "success"},
-        "🚀 Prêt à tout": {"t": "Veuillez redescendre", "p": "Il faut trouver un truc, je sais pas quoi", "c": "success"}
+        "🚀 Prêt à tout": {"t": "Veuillez redescendre", "p": "Il faut trouver un truc, je sais pas quoi", "c": "success2"}
     }
     
     info = diags[batterie]
-    couleurs_douces = {"error": "#FF4B4B", "warning": "#FFA421", "info": "#00C0F2", "success": "#00D488"}
+    couleurs_douces = {"error": "#FF4B4B", "warning": "#FFA421", "info": "#00C0F2", "success": "#00D488", "succes2" : "#06402B"}
     color = couleurs_douces.get(info['c'], "#FFFFFF")
 
     st.markdown(f"""
