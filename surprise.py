@@ -155,7 +155,7 @@ with bt_center:
 # --- 4. LOGIQUE D'ACTIVATION ---
 if bouton_clique:
     if not prenom:
-        st.warning("⚠️ Donne-moi ton prénom d'abord !")
+        st.warning("⚠️ Remplis ton prénom pour valider ton ticket !")
     else:
         jouer_musique_secure("Layla.mp3") 
         barre = st.progress(0, text="Calcul de la trajectoire vers la liberté...")
