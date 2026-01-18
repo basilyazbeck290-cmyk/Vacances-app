@@ -120,9 +120,9 @@ with col1:
     diags = {
         "💀 HS": {"t": "Alerte : Zombie détecté", "p": "Diagnostic : Mort clinique. Réanimation par perfusion de sieste conseillée", "c": "error"},
         "😫 Fatigué": {"t": "Mode Éco activé", "p": "Ordonnance : 3 jours de pyjama et interdiction de regarder les mails", "c": "warning"},
-        "😐 Ça va": {"t": "Survivant stable", "p": "\n\n Mouais, on y croit 🤨", "c": "info"},
+        "😐 Ça va": {"t": "Survivant stable", "p": "Mouais, on y croit 🤨 blablablablabla pour la 2e ligne", "c": "info"},
         "😁 En forme": {"t": "Anomalie suspecte", "p": "Trop d'énergie pour un mois de Janvier. On surveille ça de près...", "c": "success"},
-        "🚀 Prêt à tout": {"t": "Veuillez redescendre", "p": "Il faut trouver un truc, je sais pas quoi", "c": "success2"}
+        "🚀 Prêt à tout": {"t": "Veuillez redescendre", "p": "Il faut trouver un truc, je sais pas quoi, blablablabla", "c": "success2"}
     }
     
     info = diags[batterie]
