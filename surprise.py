@@ -119,7 +119,7 @@ with col1:
     
     diags = {
         "💀 HS": {"t": "Alerte : Zombie détecté", "p": "Diagnostic : Mort clinique. Réanimation par perfusion de sieste conseillée", "c": "error"},
-        "😫 Fatigué": {"t": "Mode Éco activé", "p": "Ordonnance : 3 jours de pyjama \n\n et interdiction de regarder les mails", "c": "warning"},
+        "😫 Fatigué": {"t": "Mode Éco activé", "p": "Ordonnance : 3 jours de pyjama et interdiction de regarder les mails", "c": "warning"},
         "😐 Ça va": {"t": "Survivant stable", "p": "\n\n Mouais, on y croit 🤨", "c": "info"},
         "😁 En forme": {"t": "Anomalie suspecte", "p": "Trop d'énergie pour un mois de Janvier. On surveille ça de près...", "c": "success"},
         "🚀 Prêt à tout": {"t": "Veuillez redescendre", "p": "Il faut trouver un truc, je sais pas quoi", "c": "success"}
