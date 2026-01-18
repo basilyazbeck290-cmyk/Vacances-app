@@ -148,7 +148,7 @@ with col2:
     )
 
 st.write("---")
-_, bt_center, _ = st.columns([1, 2, 1])
+_, bt_center, _ = st.columns([1, 2, 2])
 with bt_center:
     bouton_clique = st.button("IMPRIMER LE BOARDING PASS 🚀")
 
@@ -164,7 +164,6 @@ if bouton_clique:
             barre.progress(i + 1)
         barre.empty()
         st.balloons()
-        st.hearts()
         
         couleur_choisie = "#00FFFF"
         html_ticket = f"""
