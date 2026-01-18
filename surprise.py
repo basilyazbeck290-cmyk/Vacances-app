@@ -118,9 +118,9 @@ with col1:
     )
     
     diags = {
-        "💀 HS": {"t": "Alerte : Zombie détecté", "p": "Diagnostic : Mort clinique. Réanimation par perfusion de sieste conseillée.", "c": "error"},
-        "😫 Fatigué": {"t": "Mode Éco activé", "p": "Ordonnance : 3 jours de pyjama et interdiction de regarder les mails.", "c": "warning"},
-        "😐 Ça va": {"t": "Survivant stable", "p": "Mouais, on y croit 🤨", "c": "info"},
+        "💀 HS": {"t": "Alerte : Zombie détecté", "p": "Diagnostic : Mort clinique. \n\n Réanimation par perfusion de sieste conseillée", "c": "error"},
+        "😫 Fatigué": {"t": "Mode Éco activé", "p": "Ordonnance : 3 jours de pyjama \n\n et interdiction de regarder les mails", "c": "warning"},
+        "😐 Ça va": {"t": "Survivant stable", "p": "Mouais, on y croit 🤨 \n\n    \n\n ", "c": "info"},
         "😁 En forme": {"t": "Anomalie suspecte", "p": "Trop d'énergie pour un mois de Janvier. On surveille ça de près...", "c": "success"},
         "🚀 Prêt à tout": {"t": "Veuillez redescendre", "p": "Calme-toi sur l'expresso, Elon. \n\n On est juste en janvier, pas sur Mars.", "c": "success"}
     }
