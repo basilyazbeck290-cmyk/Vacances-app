@@ -126,7 +126,7 @@ with col1:
     }
     
     info = diags[batterie]
-    couleurs_douces = {"error": "#FF4B4B", "warning": "#FFA421", "info": "#00C0F2", "success": "#3dfc03", "success2": "#466D1D"}
+    couleurs_douces = {"error": "#FF4B4B", "warning": "#FFA421", "info": "#00C0F2", "success": "#00D488", "success2": "#3dfc03"}
     color = couleurs_douces.get(info['c'], "#FFFFFF")
 
     st.markdown(f"""
