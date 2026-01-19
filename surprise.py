@@ -66,6 +66,12 @@ h1, h2, h3, p, label, .stMarkdown {{
     border-left: 5px solid;
     background-color: rgba(255, 255, 255, 0.05);
     animation: fadeIn 0.4s ease-out;
+    
+    /* Ajoute ces deux lignes : */
+    min-height: 120px; /* Ajuste la valeur selon tes besoins */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }}
 
 @keyframes fadeIn {{
@@ -120,9 +126,9 @@ with col1:
     diags = {
         "💀 HS": {"t": "Alerte : Zombie détecté", "p": "Diagnostic : Mort clinique. Réanimation par perfusion de sieste conseillée", "c": "error"},
         "😫 Fatigué": {"t": "Mode Éco activé", "p": "Ordonnance : 3 jours de pyjama et interdiction de regarder les mails", "c": "warning"},
-        "😐 Ça va": {"t": "Survivant stable", "p": "Mouais, on y croit 🤨 blablablablabla pour la 2e ligne", "c": "info"},
+        "😐 Ça va": {"t": "Survivant stable", "p": "Mouais, on y croit 🤨", "c": "info"},
         "😁 En forme": {"t": "Anomalie suspecte", "p": "Trop d'énergie pour un mois de Janvier. On surveille ça de près...", "c": "success"},
-        "🚀 Prêt à tout": {"t": "Veuillez redescendre", "p": "Il faut trouver un truc, je sais pas quoi, blablablabla", "c": "success2"}
+        "🚀 Prêt à tout": {"t": "Veuillez redescendre", "p": "Il faut trouver un truc, je sais pas encore quoi", "c": "success2"}
     }
     
     info = diags[batterie]
